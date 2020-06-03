@@ -19,7 +19,7 @@ import '../../behavior/chart_behavior.dart' show ChartBehavior;
 import '../../processed_series.dart' show MutableSeries;
 
 const percentInjectedKey =
-    AttributeKey<bool>('PercentInjector.percentInjected');
+    const AttributeKey<bool>('PercentInjector.percentInjected');
 
 /// Chart behavior that can inject series or domain percentages into each datum.
 ///
@@ -49,7 +49,7 @@ class PercentInjector<D> implements ChartBehavior<D> {
   PercentInjector({this.totalType = PercentInjectorTotalType.domain}) {
     // Set up chart draw cycle listeners.
     _lifecycleListener =
-        LifecycleListener<D>(onPreprocess: _preProcess, onData: _onData);
+        new LifecycleListener<D>(onPreprocess: _preProcess, onData: _onData);
   }
 
   @override
@@ -211,7 +211,7 @@ class PercentInjector<D> implements ChartBehavior<D> {
         break;
 
       default:
-        throw ArgumentError('Unsupported totalType: ${totalType}');
+        throw new ArgumentError('Unsupported totalType: ${totalType}');
     }
   }
 

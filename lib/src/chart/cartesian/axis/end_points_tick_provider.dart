@@ -54,12 +54,12 @@ class EndPointsTickProvider<D> extends BaseTickProvider<D> {
       final labels = formatter.format([start, end], formatterValueCache,
           stepSize: scale.domainStepSize);
 
-      ticks.add(Tick(
+      ticks.add(new Tick(
           value: start,
           textElement: graphicsFactory.createTextElement(labels[0]),
           locationPx: scale[start]));
 
-      ticks.add(Tick(
+      ticks.add(new Tick(
           value: end,
           textElement: graphicsFactory.createTextElement(labels[1]),
           locationPx: scale[end]));

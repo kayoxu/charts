@@ -45,13 +45,13 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
   final _barGroupInnerPadding = 2;
 
   /// Standard color for all bar target lines.
-  final _color = Color(r: 0, g: 0, b: 0, a: 153);
+  final _color = new Color(r: 0, g: 0, b: 0, a: 153);
 
   factory BarTargetLineRenderer(
       {BarTargetLineRendererConfig<D> config,
       String rendererId = 'barTargetLine'}) {
-    config ??= BarTargetLineRendererConfig<D>();
-    return BarTargetLineRenderer._internal(
+    config ??= new BarTargetLineRendererConfig<D>();
+    return new BarTargetLineRenderer._internal(
         config: config, rendererId: rendererId);
   }
 
@@ -67,16 +67,6 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
     seriesList.forEach((MutableSeries<D> series) {
       series.colorFn ??= (_) => _color;
       series.fillColorFn ??= (_) => _color;
-
-      // Fill in missing seriesColor values with the color of the first datum in
-      // the series. Note that [Series.colorFn] should always return a color.
-      if (series.seriesColor == null) {
-        try {
-          series.seriesColor = series.colorFn(0);
-        } catch (exception) {
-          series.seriesColor = _color;
-        }
-      }
     });
   }
 
@@ -107,21 +97,21 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
     Point<double> chartPosition;
 
     if (renderingVertically) {
-      chartPosition = Point<double>(
+      chartPosition = new Point<double>(
           (points[0].x + (points[1].x - points[0].x) / 2).toDouble(),
           points[0].y.toDouble());
     } else {
-      chartPosition = Point<double>(points[0].x.toDouble(),
+      chartPosition = new Point<double>(points[0].x.toDouble(),
           (points[0].y + (points[1].y - points[0].y) / 2).toDouble());
     }
 
-    return DatumDetails.from(details, chartPosition: chartPosition);
+    return new DatumDetails.from(details, chartPosition: chartPosition);
   }
 
   @override
   _BarTargetLineRendererElement getBaseDetails(dynamic datum, int index) {
     final BarTargetLineRendererConfig<D> localConfig = config;
-    return _BarTargetLineRendererElement()
+    return new _BarTargetLineRendererElement()
       ..roundEndCaps = localConfig.roundEndCaps;
   }
 
@@ -151,7 +141,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       double strokeWidthPx,
       bool measureIsNull,
       bool measureIsNegative}) {
-    return _AnimatedBarTargetLine(
+    return new _AnimatedBarTargetLine(
         key: key, datum: datum, series: series, domainValue: domainValue)
       ..setNewTarget(makeBarRendererElement(
           color: color,
@@ -198,7 +188,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       int numBarGroups,
       bool measureIsNull,
       bool measureIsNegative}) {
-    return _BarTargetLineRendererElement()
+    return new _BarTargetLineRendererElement()
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
@@ -309,13 +299,13 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
     List<Point<int>> points;
     if (renderingVertically) {
       points = [
-        Point<int>(domainStart, measureStart),
-        Point<int>(domainEnd, measureStart)
+        new Point<int>(domainStart, measureStart),
+        new Point<int>(domainEnd, measureStart)
       ];
     } else {
       points = [
-        Point<int>(measureStart, domainStart),
-        Point<int>(measureStart, domainEnd)
+        new Point<int>(measureStart, domainStart),
+        new Point<int>(measureStart, domainEnd)
       ];
     }
     return points;
@@ -334,7 +324,7 @@ class BarTargetLineRenderer<D> extends BaseBarRenderer<D,
       bottom = bottom != null ? max(bottom, p.y) : p.y;
       right = right != null ? max(right, p.x) : p.x;
     });
-    return Rectangle<int>(left, top, right - left, bottom - top);
+    return new Rectangle<int>(left, top, right - left, bottom - top);
   }
 }
 
@@ -346,7 +336,7 @@ class _BarTargetLineRendererElement extends BaseBarRendererElement {
 
   _BarTargetLineRendererElement.clone(_BarTargetLineRendererElement other)
       : super.clone(other) {
-    points = List<Point<int>>.from(other.points);
+    points = new List<Point<int>>.from(other.points);
     roundEndCaps = other.roundEndCaps;
   }
 
@@ -372,7 +362,7 @@ class _BarTargetLineRendererElement extends BaseBarRendererElement {
         previousPoint = previousPoints[pointIndex];
         lastPoint = previousPoint;
       } else {
-        previousPoint = Point<int>(targetPoint.x, lastPoint.y);
+        previousPoint = new Point<int>(targetPoint.x, lastPoint.y);
       }
 
       var x = ((targetPoint.x - previousPoint.x) * animationPercent) +
@@ -382,9 +372,9 @@ class _BarTargetLineRendererElement extends BaseBarRendererElement {
           previousPoint.y;
 
       if (points.length - 1 >= pointIndex) {
-        points[pointIndex] = Point<int>(x.round(), y.round());
+        points[pointIndex] = new Point<int>(x.round(), y.round());
       } else {
-        points.add(Point<int>(x.round(), y.round()));
+        points.add(new Point<int>(x.round(), y.round()));
       }
     }
 
@@ -413,20 +403,20 @@ class _AnimatedBarTargetLine<D>
       : super(key: key, datum: datum, series: series, domainValue: domainValue);
 
   @override
-  void animateElementToMeasureAxisPosition(BaseBarRendererElement target) {
+  animateElementToMeasureAxisPosition(BaseBarRendererElement target) {
     final _BarTargetLineRendererElement localTarget = target;
 
     final newPoints = <Point<int>>[];
     for (var index = 0; index < localTarget.points.length; index++) {
       final targetPoint = localTarget.points[index];
 
-      newPoints.add(
-          Point<int>(targetPoint.x, localTarget.measureAxisPosition.round()));
+      newPoints.add(new Point<int>(
+          targetPoint.x, localTarget.measureAxisPosition.round()));
     }
     localTarget.points = newPoints;
   }
 
   @override
   _BarTargetLineRendererElement clone(_BarTargetLineRendererElement bar) =>
-      _BarTargetLineRendererElement.clone(bar);
+      new _BarTargetLineRendererElement.clone(bar);
 }

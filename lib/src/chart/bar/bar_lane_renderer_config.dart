@@ -75,7 +75,8 @@ class BarLaneRendererConfig extends BarRendererConfig<String> {
 
   @override
   BarLaneRenderer<String> build() {
-    return BarLaneRenderer<String>(config: this, rendererId: customRendererId);
+    return new BarLaneRenderer<String>(
+        config: this, rendererId: customRendererId);
   }
 
   @override

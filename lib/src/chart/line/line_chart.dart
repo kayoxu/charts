@@ -37,6 +37,7 @@ class LineChart extends NumericCartesianChart {
 
   @override
   SeriesRenderer<num> makeDefaultRenderer() {
-    return LineRenderer<num>()..rendererId = SeriesRenderer.defaultRendererId;
+    return new LineRenderer<num>()
+      ..rendererId = SeriesRenderer.defaultRendererId;
   }
 }

@@ -26,7 +26,7 @@ class LineRendererConfig<D> extends LayoutViewConfig
 
   final SymbolRenderer symbolRenderer;
 
-  final rendererAttributes = RendererAttributes();
+  final rendererAttributes = new RendererAttributes();
 
   /// Radius of points on the line, if [includePoints] is enabled.
   final double radiusPx;
@@ -67,6 +67,9 @@ class LineRendererConfig<D> extends LayoutViewConfig
   /// Configures the opacity of the area skirt on the chart.
   final double areaOpacity;
 
+  /// Draw smooth line in Line Chart
+  final bool smoothLine;
+
   /// Whether lines should have round end caps, or square if false.
   final bool roundEndCaps;
 
@@ -81,12 +84,13 @@ class LineRendererConfig<D> extends LayoutViewConfig
       this.includeArea = false,
       this.layoutPaintOrder = LayoutViewPaintOrder.line,
       this.areaOpacity = 0.1,
+      this.smoothLine = false,
       this.roundEndCaps = false,
       SymbolRenderer symbolRenderer})
-      : this.symbolRenderer = symbolRenderer ?? LineSymbolRenderer();
+      : this.symbolRenderer = symbolRenderer ?? new LineSymbolRenderer();
 
   @override
   LineRenderer<D> build() {
-    return LineRenderer<D>(config: this, rendererId: customRendererId);
+    return new LineRenderer<D>(config: this, rendererId: customRendererId);
   }
 }

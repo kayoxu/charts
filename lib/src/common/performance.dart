@@ -13,7 +13,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-typedef PerformanceCallback = void Function(String tag);
+typedef PerformanceCallback(String tag);
 
 class Performance {
   static PerformanceCallback time = (_) {};

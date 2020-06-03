@@ -72,9 +72,9 @@ class CanvasBarStack {
 
     final width = right - left;
     final height = bottom - top;
-    final fullStackRect = Rectangle(left, top, width, height);
+    final fullStackRect = new Rectangle(left, top, width, height);
 
-    return CanvasBarStack._internal(
+    return new CanvasBarStack._internal(
       segments,
       radius: radius,
       stackedBarPadding: stackedBarPadding,

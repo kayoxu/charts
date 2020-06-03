@@ -41,7 +41,7 @@ class NumericExtents implements Extents<num> {
         max = value;
       }
     }
-    return NumericExtents(min, max);
+    return new NumericExtents(min, max);
   }
 
   /// Returns the union of this and other.
@@ -50,13 +50,13 @@ class NumericExtents implements Extents<num> {
       if (max >= other.max) {
         return this;
       } else {
-        return NumericExtents(min, other.max);
+        return new NumericExtents(min, other.max);
       }
     } else {
       if (other.max >= max) {
         return other;
       } else {
-        return NumericExtents(other.min, max);
+        return new NumericExtents(other.min, max);
       }
     }
   }
@@ -100,6 +100,6 @@ class NumericExtents implements Extents<num> {
   String toString() => 'Extent($min, $max)';
 
   static const NumericExtents unbounded =
-      NumericExtents(double.negativeInfinity, double.infinity);
-  static const NumericExtents empty = NumericExtents(0.0, 0.0);
+      const NumericExtents(double.negativeInfinity, double.infinity);
+  static const NumericExtents empty = const NumericExtents(0.0, 0.0);
 }

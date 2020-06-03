@@ -14,7 +14,6 @@
 // limitations under the License.
 
 import 'package:meta/meta.dart' show immutable;
-import 'package:intl/intl.dart' show DateFormat;
 
 import '../../../../common/date_time_factory.dart' show DateTimeFactory;
 import '../../../../common/graphics_factory.dart' show GraphicsFactory;
@@ -29,8 +28,6 @@ import '../time/date_time_extents.dart' show DateTimeExtents;
 import '../time/date_time_tick_formatter.dart' show DateTimeTickFormatter;
 import '../time/day_time_stepper.dart' show DayTimeStepper;
 import '../time/hour_tick_formatter.dart' show HourTickFormatter;
-import '../time/simple_time_tick_formatter.dart'
-    show DateTimeFormatterFunction, SimpleTimeTickFormatter;
 import '../time/time_range_tick_provider_impl.dart'
     show TimeRangeTickProviderImpl;
 import '../time/time_tick_formatter.dart' show TimeTickFormatter;
@@ -72,7 +69,7 @@ class DateTimeAxisSpec extends AxisSpec<DateTime> {
             showAxisLine: showAxisLine);
 
   @override
-  void configure(Axis<DateTime> axis, ChartContext context,
+  configure(Axis<DateTime> axis, ChartContext context,
       GraphicsFactory graphicsFactory) {
     super.configure(axis, context, graphicsFactory);
 
@@ -88,7 +85,7 @@ class DateTimeAxisSpec extends AxisSpec<DateTime> {
 
   /// Creates a [DateTimeAxis]. This should be called in place of createAxis.
   DateTimeAxis createDateTimeAxis(DateTimeFactory dateTimeFactory) =>
-      DateTimeAxis(dateTimeFactory);
+      new DateTimeAxis(dateTimeFactory);
 
   @override
   bool operator ==(Object other) =>
@@ -124,10 +121,10 @@ class AutoDateTimeTickProviderSpec implements DateTimeTickProviderSpec {
   @override
   AutoAdjustingDateTimeTickProvider createTickProvider(ChartContext context) {
     if (includeTime) {
-      return AutoAdjustingDateTimeTickProvider.createDefault(
+      return new AutoAdjustingDateTimeTickProvider.createDefault(
           context.dateTimeFactory);
     } else {
-      return AutoAdjustingDateTimeTickProvider.createWithoutTime(
+      return new AutoAdjustingDateTimeTickProvider.createWithoutTime(
           context.dateTimeFactory);
     }
   }
@@ -154,8 +151,8 @@ class DayTickProviderSpec implements DateTimeTickProviderSpec {
   /// when searching for the appropriate tick intervals.
   @override
   AutoAdjustingDateTimeTickProvider createTickProvider(ChartContext context) {
-    return AutoAdjustingDateTimeTickProvider.createWith([
-      TimeRangeTickProviderImpl(DayTimeStepper(context.dateTimeFactory,
+    return new AutoAdjustingDateTimeTickProvider.createWith([
+      new TimeRangeTickProviderImpl(new DayTimeStepper(context.dateTimeFactory,
           allowedTickIncrements: increments))
     ]);
   }
@@ -178,7 +175,7 @@ class DateTimeEndPointsTickProviderSpec implements DateTimeTickProviderSpec {
   /// two end points of the axis range
   @override
   EndPointsTickProvider<DateTime> createTickProvider(ChartContext context) {
-    return EndPointsTickProvider<DateTime>();
+    return new EndPointsTickProvider<DateTime>();
   }
 
   @override
@@ -194,7 +191,7 @@ class StaticDateTimeTickProviderSpec implements DateTimeTickProviderSpec {
 
   @override
   StaticTickProvider<DateTime> createTickProvider(ChartContext context) =>
-      StaticTickProvider<DateTime>(tickSpecs);
+      new StaticTickProvider<DateTime>(tickSpecs);
 
   @override
   bool operator ==(Object other) =>
@@ -239,43 +236,6 @@ class TimeFormatterSpec {
     hashcode = (hashcode * 37) + transitionFormat?.hashCode ?? 0;
     hashcode = (hashcode * 37) + noonFormat?.hashCode ?? 0;
     return hashcode;
-  }
-}
-
-/// A [DateTimeTickFormatterSpec] that accepts a [DateFormat] or a
-/// [DateTimeFormatterFunction].
-@immutable
-class BasicDateTimeTickFormatterSpec implements DateTimeTickFormatterSpec {
-  final DateTimeFormatterFunction formatter;
-  final DateFormat dateFormat;
-
-  const BasicDateTimeTickFormatterSpec(this.formatter) : dateFormat = null;
-
-  const BasicDateTimeTickFormatterSpec.fromDateFormat(this.dateFormat)
-      : formatter = null;
-
-  /// A formatter will be created with the [DateFormat] if it is not null.
-  /// Otherwise, it will create one with the provided
-  /// [DateTimeFormatterFunction].
-  @override
-  DateTimeTickFormatter createTickFormatter(ChartContext context) {
-    return DateTimeTickFormatter.uniform(SimpleTimeTickFormatter(
-        formatter: dateFormat != null ? dateFormat.format : formatter));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other is BasicDateTimeTickFormatterSpec &&
-            formatter == other.formatter &&
-            dateFormat == other.dateFormat);
-  }
-
-  @override
-  int get hashCode {
-    int hash = formatter.hashCode;
-    hash = (hash * 37) * dateFormat.hashCode;
-    return hash;
   }
 }
 
@@ -325,19 +285,19 @@ class AutoDateTimeTickFormatterSpec implements DateTimeTickFormatterSpec {
           _makeFormatter(year, CalendarField.year, context);
     }
 
-    return DateTimeTickFormatter(context.dateTimeFactory, overrides: map);
+    return new DateTimeTickFormatter(context.dateTimeFactory, overrides: map);
   }
 
   TimeTickFormatterImpl _makeFormatter(TimeFormatterSpec spec,
       CalendarField transitionField, ChartContext context) {
     if (spec.noonFormat != null) {
-      return HourTickFormatter(
+      return new HourTickFormatter(
           dateTimeFactory: context.dateTimeFactory,
           simpleFormat: spec.format,
           transitionFormat: spec.transitionFormat,
           noonFormat: spec.noonFormat);
     } else {
-      return TimeTickFormatterImpl(
+      return new TimeTickFormatterImpl(
           dateTimeFactory: context.dateTimeFactory,
           simpleFormat: spec.format,
           transitionFormat: spec.transitionFormat,

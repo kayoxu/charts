@@ -43,7 +43,7 @@ abstract class InitialHintBehavior<D> implements ChartBehavior<D> {
   @protected
   CartesianChart<D> get chart => _chart;
 
-  Duration _hintDuration = Duration(milliseconds: 3000);
+  Duration _hintDuration = new Duration(milliseconds: 3000);
 
   /// The amount of time to animate to the desired viewport.
   ///
@@ -104,17 +104,17 @@ abstract class InitialHintBehavior<D> implements ChartBehavior<D> {
   double _targetViewportScalingFactor;
 
   InitialHintBehavior() {
-    _listener = GestureListener(onTapTest: onTapTest);
+    _listener = new GestureListener(onTapTest: onTapTest);
 
-    _lifecycleListener = LifecycleListener<D>(
+    _lifecycleListener = new LifecycleListener<D>(
         onAxisConfigured: _onAxisConfigured,
         onAnimationComplete: _onAnimationComplete);
   }
 
   @override
-  void attachTo(BaseChart<D> chart) {
+  attachTo(BaseChart<D> chart) {
     if (!(chart is CartesianChart)) {
-      throw ArgumentError(
+      throw new ArgumentError(
           'InitialHintBehavior can only be attached to a CartesianChart');
     }
 
@@ -125,9 +125,9 @@ abstract class InitialHintBehavior<D> implements ChartBehavior<D> {
   }
 
   @override
-  void removeFrom(BaseChart<D> chart) {
+  removeFrom(BaseChart<D> chart) {
     if (!(chart is CartesianChart)) {
-      throw ArgumentError(
+      throw new ArgumentError(
           'InitialHintBehavior can only be removed from a CartesianChart');
     }
 

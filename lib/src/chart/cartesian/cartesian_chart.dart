@@ -14,6 +14,7 @@
 // limitations under the License.
 
 import 'dart:collection' show LinkedHashMap;
+import 'dart:math' show Point;
 
 import 'package:meta/meta.dart' show protected;
 
@@ -25,7 +26,7 @@ import '../common/chart_context.dart' show ChartContext;
 import '../common/datum_details.dart' show DatumDetails;
 import '../common/processed_series.dart' show MutableSeries;
 import '../common/selection_model/selection_model.dart' show SelectionModelType;
-import '../common/series_renderer.dart' show SeriesRenderer, rendererIdKey;
+import '../common/series_renderer.dart' show SeriesRenderer;
 import '../layout/layout_config.dart' show LayoutConfig, MarginSpec;
 import '../layout/layout_view.dart' show LayoutViewPaintOrder;
 import 'axis/axis.dart'
@@ -54,14 +55,14 @@ class NumericCartesianChart extends CartesianChart<num> {
       : super(
             vertical: vertical,
             layoutConfig: layoutConfig,
-            domainAxis: NumericAxis(),
+            domainAxis: new NumericAxis(),
             primaryMeasureAxis: primaryMeasureAxis,
             secondaryMeasureAxis: secondaryMeasureAxis,
             disjointMeasureAxes: disjointMeasureAxes);
 
   @protected
   void initDomainAxis() {
-    _domainAxis.tickDrawStrategy = SmallTickRendererSpec<num>()
+    _domainAxis.tickDrawStrategy = new SmallTickRendererSpec<num>()
         .createDrawStrategy(context, graphicsFactory);
   }
 }
@@ -76,7 +77,7 @@ class OrdinalCartesianChart extends CartesianChart<String> {
       : super(
             vertical: vertical,
             layoutConfig: layoutConfig,
-            domainAxis: OrdinalAxis(),
+            domainAxis: new OrdinalAxis(),
             primaryMeasureAxis: primaryMeasureAxis,
             secondaryMeasureAxis: secondaryMeasureAxis,
             disjointMeasureAxes: disjointMeasureAxes);
@@ -84,17 +85,17 @@ class OrdinalCartesianChart extends CartesianChart<String> {
   @protected
   void initDomainAxis() {
     _domainAxis
-      ..tickDrawStrategy = SmallTickRendererSpec<String>()
+      ..tickDrawStrategy = new SmallTickRendererSpec<String>()
           .createDrawStrategy(context, graphicsFactory);
   }
 }
 
 abstract class CartesianChart<D> extends BaseChart<D> {
-  static final _defaultLayoutConfig = LayoutConfig(
-    topSpec: MarginSpec.fromPixel(minPixel: 20),
-    bottomSpec: MarginSpec.fromPixel(minPixel: 20),
-    leftSpec: MarginSpec.fromPixel(minPixel: 20),
-    rightSpec: MarginSpec.fromPixel(minPixel: 20),
+  static final _defaultLayoutConfig = new LayoutConfig(
+    topSpec: new MarginSpec.fromPixel(minPixel: 20),
+    bottomSpec: new MarginSpec.fromPixel(minPixel: 20),
+    leftSpec: new MarginSpec.fromPixel(minPixel: 20),
+    rightSpec: new MarginSpec.fromPixel(minPixel: 20),
   );
 
   bool vertical;
@@ -147,8 +148,8 @@ abstract class CartesianChart<D> extends BaseChart<D> {
       : vertical = vertical ?? true,
         // [domainAxis] will be set to the new axis in [configurationChanged].
         _newDomainAxis = domainAxis,
-        _primaryMeasureAxis = primaryMeasureAxis ?? NumericAxis(),
-        _secondaryMeasureAxis = secondaryMeasureAxis ?? NumericAxis(),
+        _primaryMeasureAxis = primaryMeasureAxis ?? new NumericAxis(),
+        _secondaryMeasureAxis = secondaryMeasureAxis ?? new NumericAxis(),
         _disjointMeasureAxes = disjointMeasureAxes ?? <String, NumericAxis>{},
         super(layoutConfig: layoutConfig ?? _defaultLayoutConfig) {
     // As a convenience for chart configuration, set the paint order on any axis
@@ -165,16 +166,17 @@ abstract class CartesianChart<D> extends BaseChart<D> {
     super.init(context, graphicsFactory);
 
     _primaryMeasureAxis.context = context;
-    _primaryMeasureAxis.tickDrawStrategy = GridlineRendererSpec<num>()
+    _primaryMeasureAxis.tickDrawStrategy = new GridlineRendererSpec<num>()
         .createDrawStrategy(context, graphicsFactory);
 
     _secondaryMeasureAxis.context = context;
-    _secondaryMeasureAxis.tickDrawStrategy = GridlineRendererSpec<num>()
+    _secondaryMeasureAxis.tickDrawStrategy = new GridlineRendererSpec<num>()
         .createDrawStrategy(context, graphicsFactory);
 
     _disjointMeasureAxes.forEach((String axisId, NumericAxis axis) {
       axis.context = context;
-      axis.tickDrawStrategy = NoneDrawStrategy<num>(context, graphicsFactory);
+      axis.tickDrawStrategy =
+          new NoneDrawStrategy<num>(context, graphicsFactory);
     });
   }
 
@@ -297,7 +299,7 @@ abstract class CartesianChart<D> extends BaseChart<D> {
 
   @override
   SeriesRenderer<D> makeDefaultRenderer() {
-    return BarRenderer()..rendererId = SeriesRenderer.defaultRendererId;
+    return new BarRenderer()..rendererId = SeriesRenderer.defaultRendererId;
   }
 
   @override
@@ -439,34 +441,26 @@ abstract class CartesianChart<D> extends BaseChart<D> {
       final datumIndex = seriesDatum.index;
 
       final domain = series.domainFn(datumIndex);
-      final domainFormatterFn = series.domainFormatterFn;
       final measure = series.measureFn(datumIndex);
-      final measureFormatterFn = series.measureFormatterFn;
-      final measureOffset = series.measureOffsetFn(datumIndex);
       final rawMeasure = series.rawMeasureFn(datumIndex);
       final color = series.colorFn(datumIndex);
 
-      final renderer = getSeriesRenderer(series.getAttr(rendererIdKey));
+      final domainPosition = series.getAttr(domainAxisKey).getLocation(domain);
+      final measurePosition =
+          series.getAttr(measureAxisKey).getLocation(measure);
 
-      final datumDetails = renderer.addPositionToDetailsForSeriesDatum(
-          DatumDetails(
-              datum: datum,
-              domain: domain,
-              domainFormatter: domainFormatterFn != null
-                  ? domainFormatterFn(datumIndex)
-                  : null,
-              index: datumIndex,
-              measure: measure,
-              measureFormatter: measureFormatterFn != null
-                  ? measureFormatterFn(datumIndex)
-                  : null,
-              measureOffset: measureOffset,
-              rawMeasure: rawMeasure,
-              series: series,
-              color: color),
-          seriesDatum);
+      final chartPosition = new Point<double>(
+          vertical ? domainPosition : measurePosition,
+          vertical ? measurePosition : domainPosition);
 
-      entries.add(datumDetails);
+      entries.add(new DatumDetails(
+          datum: datum,
+          domain: domain,
+          measure: measure,
+          rawMeasure: rawMeasure,
+          series: series,
+          color: color,
+          chartPosition: chartPosition));
     });
 
     return entries;

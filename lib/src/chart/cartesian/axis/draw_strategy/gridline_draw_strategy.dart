@@ -42,7 +42,6 @@ class GridlineRendererSpec<D> extends SmallTickRendererSpec<D> {
     int labelOffsetFromAxisPx,
     int labelOffsetFromTickPx,
     int minimumPaddingBetweenLabelsPx,
-    int labelRotation,
   }) : super(
             labelStyle: labelStyle,
             lineStyle: lineStyle,
@@ -51,14 +50,13 @@ class GridlineRendererSpec<D> extends SmallTickRendererSpec<D> {
             labelOffsetFromAxisPx: labelOffsetFromAxisPx,
             labelOffsetFromTickPx: labelOffsetFromTickPx,
             minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-            labelRotation: labelRotation,
             tickLengthPx: tickLengthPx,
             axisLineStyle: axisLineStyle);
 
   @override
   TickDrawStrategy<D> createDrawStrategy(
           ChartContext context, GraphicsFactory graphicsFactory) =>
-      GridlineTickDrawStrategy<D>(context, graphicsFactory,
+      new GridlineTickDrawStrategy<D>(context, graphicsFactory,
           tickLengthPx: tickLengthPx,
           lineStyleSpec: lineStyle,
           labelStyleSpec: labelStyle,
@@ -67,8 +65,7 @@ class GridlineRendererSpec<D> extends SmallTickRendererSpec<D> {
           labelJustification: labelJustification,
           labelOffsetFromAxisPx: labelOffsetFromAxisPx,
           labelOffsetFromTickPx: labelOffsetFromTickPx,
-          minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-          labelRotation: labelRotation);
+          minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx);
 
   @override
   bool operator ==(Object other) {
@@ -102,7 +99,6 @@ class GridlineTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
     int labelOffsetFromAxisPx,
     int labelOffsetFromTickPx,
     int minimumPaddingBetweenLabelsPx,
-    int labelRotation,
   }) : super(chartContext, graphicsFactory,
             labelStyleSpec: labelStyleSpec,
             axisLineStyleSpec: axisLineStyleSpec ?? lineStyleSpec,
@@ -110,12 +106,11 @@ class GridlineTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
             labelJustification: labelJustification,
             labelOffsetFromAxisPx: labelOffsetFromAxisPx,
             labelOffsetFromTickPx: labelOffsetFromTickPx,
-            minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-            labelRotation: labelRotation) {
+            minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx) {
     lineStyle =
         StyleFactory.style.createGridlineStyle(graphicsFactory, lineStyleSpec);
 
-    tickLength = tickLengthPx ?? 0;
+    this.tickLength = tickLengthPx ?? 0;
   }
 
   @override
@@ -130,34 +125,34 @@ class GridlineTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
     switch (orientation) {
       case AxisOrientation.top:
         final x = tick.locationPx;
-        lineStart = Point(x, axisBounds.bottom - tickLength);
-        lineEnd = Point(x, drawAreaBounds.bottom);
+        lineStart = new Point(x, axisBounds.bottom - tickLength);
+        lineEnd = new Point(x, drawAreaBounds.bottom);
         break;
       case AxisOrientation.bottom:
         final x = tick.locationPx;
-        lineStart = Point(x, drawAreaBounds.top + tickLength);
-        lineEnd = Point(x, axisBounds.top);
+        lineStart = new Point(x, drawAreaBounds.top + tickLength);
+        lineEnd = new Point(x, axisBounds.top);
         break;
       case AxisOrientation.right:
         final y = tick.locationPx;
         if (tickLabelAnchor == TickLabelAnchor.after ||
             tickLabelAnchor == TickLabelAnchor.before) {
-          lineStart = Point(axisBounds.right, y);
+          lineStart = new Point(axisBounds.right, y);
         } else {
-          lineStart = Point(axisBounds.left + tickLength, y);
+          lineStart = new Point(axisBounds.left + tickLength, y);
         }
-        lineEnd = Point(drawAreaBounds.left, y);
+        lineEnd = new Point(drawAreaBounds.left, y);
         break;
       case AxisOrientation.left:
         final y = tick.locationPx;
 
         if (tickLabelAnchor == TickLabelAnchor.after ||
             tickLabelAnchor == TickLabelAnchor.before) {
-          lineStart = Point(axisBounds.left, y);
+          lineStart = new Point(axisBounds.left, y);
         } else {
-          lineStart = Point(axisBounds.right - tickLength, y);
+          lineStart = new Point(axisBounds.right - tickLength, y);
         }
-        lineEnd = Point(drawAreaBounds.right, y);
+        lineEnd = new Point(drawAreaBounds.right, y);
         break;
     }
 

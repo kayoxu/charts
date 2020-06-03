@@ -34,7 +34,7 @@ class ArcRendererConfig<D> extends LayoutViewConfig
 
   final SymbolRenderer symbolRenderer;
 
-  final rendererAttributes = RendererAttributes();
+  final rendererAttributes = new RendererAttributes();
 
   /// Total arc length, in radians.
   ///
@@ -83,12 +83,12 @@ class ArcRendererConfig<D> extends LayoutViewConfig
       this.startAngle = -pi / 2,
       this.strokeWidthPx = 2.0,
       SymbolRenderer symbolRenderer})
-      : noDataColor = StyleFactory.style.noDataColor,
-        stroke = StyleFactory.style.arcStrokeColor,
-        this.symbolRenderer = symbolRenderer ?? CircleSymbolRenderer();
+      : this.noDataColor = StyleFactory.style.noDataColor,
+        this.stroke = StyleFactory.style.white,
+        this.symbolRenderer = symbolRenderer ?? new CircleSymbolRenderer();
 
   @override
   ArcRenderer<D> build() {
-    return ArcRenderer<D>(config: this, rendererId: customRendererId);
+    return new ArcRenderer<D>(config: this, rendererId: customRendererId);
   }
 }

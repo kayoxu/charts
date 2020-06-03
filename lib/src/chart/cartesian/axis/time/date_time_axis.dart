@@ -28,14 +28,14 @@ class DateTimeAxis extends Axis<DateTime> {
       {TickProvider tickProvider, TickFormatter tickFormatter})
       : super(
           tickProvider: tickProvider ??
-              AutoAdjustingDateTimeTickProvider.createDefault(dateTimeFactory),
+              new AutoAdjustingDateTimeTickProvider.createDefault(
+                  dateTimeFactory),
           tickFormatter:
-              tickFormatter ?? DateTimeTickFormatter(dateTimeFactory),
-          scale: DateTimeScale(dateTimeFactory),
+              tickFormatter ?? new DateTimeTickFormatter(dateTimeFactory),
+          scale: new DateTimeScale(dateTimeFactory),
         );
 
   void setScaleViewport(DateTimeExtents viewport) {
-    autoViewport = false;
     (mutableScale as DateTimeScale).viewportDomain = viewport;
   }
 }

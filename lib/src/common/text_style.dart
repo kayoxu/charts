@@ -22,7 +22,4 @@ abstract class TextStyle extends PaintStyle {
 
   String get fontFamily;
   set fontFamily(String fontFamily);
-
-  double get lineHeight;
-  set lineHeight(double value);
 }

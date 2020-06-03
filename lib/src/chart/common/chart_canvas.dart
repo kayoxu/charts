@@ -57,6 +57,7 @@ abstract class ChartCanvas {
       Rectangle<num> clipBounds,
       Color fill,
       Color stroke,
+      bool smoothLine,
       bool roundEndCaps,
       double strokeWidthPx,
       List<int> dashPattern});
@@ -97,7 +98,8 @@ abstract class ChartCanvas {
       Rectangle<num> clipBounds,
       Color fill,
       Color stroke,
-      double strokeWidthPx});
+      double strokeWidthPx,
+      bool smoothLine});
 
   /// Renders a simple rectangle.
   ///
@@ -115,10 +117,6 @@ abstract class ChartCanvas {
   void drawRRect(Rectangle<num> bounds,
       {Color fill,
       Color stroke,
-      Color patternColor,
-      FillPatternType fillPattern,
-      double patternStrokeWidthPx,
-      double strokeWidthPx,
       num radius,
       bool roundTopLeft,
       bool roundTopRight,
@@ -155,7 +153,7 @@ Color getAnimatedColor(Color previous, Color target, double animationPercent) {
   var b = (((target.b - previous.b) * animationPercent) + previous.b).round();
   var a = (((target.a - previous.a) * animationPercent) + previous.a).round();
 
-  return Color(a: a, r: r, g: g, b: b);
+  return new Color(a: a, r: r, g: g, b: b);
 }
 
 /// Defines the pattern for a color fill.

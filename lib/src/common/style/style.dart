@@ -64,13 +64,6 @@ abstract class Style {
   /// Default color for outside label leader lines for [ArcLabelDecorator].
   Color get arcLabelOutsideLeaderLine;
 
-  /// Default series color for legends, used as a fallback when a series has no
-  /// data.
-  Color get defaultSeriesColor;
-
-  /// Default color for strokes for [ArcRendererConfig].
-  Color get arcStrokeColor;
-
   /// Default color for entry text for [Legend].
   Color get legendEntryTextColor;
 
@@ -94,7 +87,4 @@ abstract class Style {
 
   /// Default background color for the chart.
   Color get chartBackgroundColor;
-
-  /// The width of the band specified as fraction of step.
-  double get rangeBandSize;
 }

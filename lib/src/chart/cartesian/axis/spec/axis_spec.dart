@@ -19,7 +19,6 @@ import '../../../../common/color.dart' show Color;
 import '../../../../common/graphics_factory.dart' show GraphicsFactory;
 import '../../../common/chart_context.dart' show ChartContext;
 import '../axis.dart' show Axis;
-import '../scale.dart' show Scale;
 import '../draw_strategy/tick_draw_strategy.dart' show TickDrawStrategy;
 import '../tick_formatter.dart' show TickFormatter;
 import '../tick_provider.dart' show TickProvider;
@@ -30,14 +29,12 @@ class AxisSpec<D> {
   final RenderSpec<D> renderSpec;
   final TickProviderSpec<D> tickProviderSpec;
   final TickFormatterSpec<D> tickFormatterSpec;
-  final ScaleSpec scaleSpec;
 
   const AxisSpec({
     this.renderSpec,
     this.tickProviderSpec,
     this.tickFormatterSpec,
     this.showAxisLine,
-    this.scaleSpec,
   });
 
   factory AxisSpec.from(
@@ -46,21 +43,17 @@ class AxisSpec<D> {
     TickProviderSpec<D> tickProviderSpec,
     TickFormatterSpec<D> tickFormatterSpec,
     bool showAxisLine,
-    ScaleSpec scaleSpec,
   }) {
-    return AxisSpec(
+    return new AxisSpec(
       renderSpec: renderSpec ?? other.renderSpec,
       tickProviderSpec: tickProviderSpec ?? other.tickProviderSpec,
       tickFormatterSpec: tickFormatterSpec ?? other.tickFormatterSpec,
       showAxisLine: showAxisLine ?? other.showAxisLine,
-      scaleSpec: scaleSpec ?? other.scaleSpec,
     );
   }
 
-  void configure(
+  configure(
       Axis<D> axis, ChartContext context, GraphicsFactory graphicsFactory) {
-    axis.resetDefaultConfiguration();
-
     if (showAxisLine != null) {
       axis.forceDrawAxisLine = showAxisLine;
     }
@@ -77,10 +70,6 @@ class AxisSpec<D> {
     if (tickFormatterSpec != null) {
       axis.tickFormatter = tickFormatterSpec.createTickFormatter(context);
     }
-
-    if (scaleSpec != null) {
-      axis.scale = scaleSpec.createScale();
-    }
   }
 
   /// Creates an appropriately typed [Axis].
@@ -93,8 +82,7 @@ class AxisSpec<D> {
           renderSpec == other.renderSpec &&
           tickProviderSpec == other.tickProviderSpec &&
           tickFormatterSpec == other.tickFormatterSpec &&
-          showAxisLine == other.showAxisLine &&
-          scaleSpec == other.scaleSpec);
+          showAxisLine == other.showAxisLine);
 
   @override
   int get hashCode {
@@ -102,7 +90,6 @@ class AxisSpec<D> {
     hashcode = (hashcode * 37) + tickProviderSpec.hashCode;
     hashcode = (hashcode * 37) + tickFormatterSpec.hashCode;
     hashcode = (hashcode * 37) + showAxisLine.hashCode;
-    hashcode = (hashCode * 37) + scaleSpec.hashCode;
     return hashcode;
   }
 }
@@ -118,11 +105,6 @@ abstract class TickFormatterSpec<D> {
 }
 
 @immutable
-abstract class ScaleSpec<D> {
-  Scale<D> createScale();
-}
-
-@immutable
 abstract class RenderSpec<D> {
   const RenderSpec();
 
@@ -134,16 +116,9 @@ abstract class RenderSpec<D> {
 class TextStyleSpec {
   final String fontFamily;
   final int fontSize;
-  final double lineHeight;
   final Color color;
-  final String fontWeight;
 
-  const TextStyleSpec(
-      {this.fontFamily,
-      this.fontSize,
-      this.lineHeight,
-      this.color,
-      this.fontWeight});
+  const TextStyleSpec({this.fontFamily, this.fontSize, this.color});
 
   @override
   bool operator ==(Object other) {
@@ -151,18 +126,14 @@ class TextStyleSpec {
         (other is TextStyleSpec &&
             fontFamily == other.fontFamily &&
             fontSize == other.fontSize &&
-            lineHeight == other.lineHeight &&
-            color == other.color &&
-            fontWeight == other.fontWeight);
+            color == other.color);
   }
 
   @override
   int get hashCode {
     int hashcode = fontFamily?.hashCode ?? 0;
     hashcode = (hashcode * 37) + fontSize?.hashCode ?? 0;
-    hashcode = (hashcode * 37) + lineHeight?.hashCode ?? 0;
     hashcode = (hashcode * 37) + color?.hashCode ?? 0;
-    hashcode = (hashcode * 37) + fontWeight?.hashCode ?? 0;
     return hashcode;
   }
 }

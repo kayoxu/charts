@@ -153,9 +153,9 @@ class Slider<D> implements ChartBehavior<D> {
       this.snapToDatum = false,
       SliderStyle style,
       this.layoutPaintOrder = LayoutViewPaintOrder.slider}) {
-    _handleRenderer = handleRenderer ?? RectSymbolRenderer();
+    _handleRenderer = handleRenderer ?? new RectSymbolRenderer();
     _roleId = roleId ?? '';
-    _style = style ?? SliderStyle();
+    _style = style ?? new SliderStyle();
 
     _domainValue = initialDomainValue;
     if (_domainValue != null) {
@@ -163,9 +163,9 @@ class Slider<D> implements ChartBehavior<D> {
     }
 
     // Setup the appropriate gesture listening.
-    switch (eventTrigger) {
+    switch (this.eventTrigger) {
       case SelectionTrigger.tapAndDrag:
-        _gestureListener = GestureListener(
+        _gestureListener = new GestureListener(
             onTapTest: _onTapTest,
             onTap: _onSelect,
             onDragStart: _onSelect,
@@ -173,7 +173,7 @@ class Slider<D> implements ChartBehavior<D> {
             onDragEnd: _onDragEnd);
         break;
       case SelectionTrigger.pressHold:
-        _gestureListener = GestureListener(
+        _gestureListener = new GestureListener(
             onTapTest: _onTapTest,
             onLongPress: _onSelect,
             onDragStart: _onSelect,
@@ -181,7 +181,7 @@ class Slider<D> implements ChartBehavior<D> {
             onDragEnd: _onDragEnd);
         break;
       case SelectionTrigger.longPressHold:
-        _gestureListener = GestureListener(
+        _gestureListener = new GestureListener(
             onTapTest: _onTapTest,
             onLongPress: _onLongPressSelect,
             onDragStart: _onSelect,
@@ -189,20 +189,21 @@ class Slider<D> implements ChartBehavior<D> {
             onDragEnd: _onDragEnd);
         break;
       default:
-        throw ArgumentError('Slider does not support the event trigger '
-            '"$eventTrigger"');
+        throw new ArgumentError('Slider does not support the event trigger '
+            '"${this.eventTrigger}"');
         break;
     }
 
     // Set up chart draw cycle listeners.
-    _lifecycleListener = LifecycleListener<D>(
+    _lifecycleListener = new LifecycleListener<D>(
       onData: _setInitialDragState,
       onAxisConfigured: _updateViewData,
       onPostrender: _fireChangeEvent,
     );
 
     // Set up slider event listeners.
-    _sliderEventListener = SliderEventListener<D>(onChange: onChangeCallback);
+    _sliderEventListener =
+        new SliderEventListener<D>(onChange: onChangeCallback);
   }
 
   bool _onTapTest(Point<double> chartPoint) {
@@ -285,7 +286,7 @@ class Slider<D> implements ChartBehavior<D> {
   }
 
   void _updateViewData() {
-    _sliderHandle ??= _AnimatedSlider();
+    _sliderHandle ??= new _AnimatedSlider();
 
     // If not set in the constructor, initial position for the handle is the
     // center of the draw area.
@@ -298,10 +299,10 @@ class Slider<D> implements ChartBehavior<D> {
     _moveSliderToDomain(_domainValue);
 
     // Move the handle to the current event position.
-    final element = _SliderElement()
+    final element = new _SliderElement()
       ..domainCenterPoint =
-          Point<int>(_domainCenterPoint.x, _domainCenterPoint.y)
-      ..buttonBounds = Rectangle<int>(_handleBounds.left, _handleBounds.top,
+          new Point<int>(_domainCenterPoint.x, _domainCenterPoint.y)
+      ..buttonBounds = new Rectangle<int>(_handleBounds.left, _handleBounds.top,
           _handleBounds.width, _handleBounds.height)
       ..fill = _style.fillColor
       ..stroke = _style.strokeColor
@@ -341,15 +342,13 @@ class Slider<D> implements ChartBehavior<D> {
 
     // Fire the event.
     _sliderEventListener.onChange(
-        Point<int>(_domainCenterPoint.x, _domainCenterPoint.y),
+        new Point<int>(_domainCenterPoint.x, _domainCenterPoint.y),
         _domainValue,
         _roleId,
         dragState);
   }
 
-  /// Moves the slider along the domain axis (and primary measure axis if
-  /// [_style.handlePosition] is set to [SliderHandlePosition.manual]) to [point
-  /// ].
+  /// Moves the slider along the domain axis to [point].
   ///
   /// If [point] exists beyond either edge of the draw area, it will be bound to
   /// the nearest edge.
@@ -370,45 +369,20 @@ class Slider<D> implements ChartBehavior<D> {
       final viewBounds = _view.componentBounds;
 
       // Clamp the position to the edge of the viewport.
-      final positionX = clamp(point.x, viewBounds.left, viewBounds.right);
+      final position = clamp(point.x, viewBounds.left, viewBounds.right);
 
-      final previousYPosition = _handleBounds == null
-          ? 0
-          : _handleBounds.top +
-              _style.handleSize.height / 2 -
-              _style.handleOffset.y;
-
-      var positionY = point.y;
-      if (point.y == 0) {
-        if (_handleBounds == null) {
-          positionY = viewBounds.bottom.toDouble();
-        } else {
-          positionY = previousYPosition;
-        }
-      }
-
-      // Clamp the position to the edge of the viewport.
-      positionY = clamp(positionY, viewBounds.top, viewBounds.bottom);
-
-      final positionXChanged = (_previousDomainCenterPoint != null &&
-          positionX != _previousDomainCenterPoint.x);
-
-      final positionYChanged =
-          (_style.handlePosition == SliderHandlePosition.manual &&
-              _handleBounds != null &&
-              positionY != previousYPosition);
-
-      positionChanged = positionXChanged || positionYChanged;
+      positionChanged = (_previousDomainCenterPoint != null &&
+          position != _previousDomainCenterPoint.x);
 
       // Reset the domain value if the position was outside of the chart.
-      _domainValue = _chart.domainAxis.getDomain(positionX.toDouble());
+      _domainValue = _chart.domainAxis.getDomain(position.toDouble());
 
       if (_domainCenterPoint != null) {
         _domainCenterPoint =
-            Point<int>(positionX.round(), _domainCenterPoint.y);
+            new Point<int>(position.round(), _domainCenterPoint.y);
       } else {
-        _domainCenterPoint = Point<int>(positionX.round(),
-            (viewBounds.top + viewBounds.height / 2).round());
+        _domainCenterPoint = new Point<int>(
+            position.round(), (viewBounds.top + viewBounds.height / 2).round());
       }
 
       num handleReferenceY;
@@ -419,16 +393,13 @@ class Slider<D> implements ChartBehavior<D> {
         case SliderHandlePosition.top:
           handleReferenceY = viewBounds.top;
           break;
-        case SliderHandlePosition.manual:
-          handleReferenceY = positionY;
-          break;
         default:
-          throw ArgumentError('Slider does not support the handle position '
+          throw new ArgumentError('Slider does not support the handle position '
               '"${_style.handlePosition}"');
       }
 
       // Move the slider handle along the domain axis.
-      _handleBounds = Rectangle<int>(
+      _handleBounds = new Rectangle<int>(
           (_domainCenterPoint.x -
                   _style.handleSize.width / 2 +
                   _style.handleOffset.x)
@@ -444,11 +415,9 @@ class Slider<D> implements ChartBehavior<D> {
     return positionChanged;
   }
 
-  /// Moves the slider along the domain axis to the location of [domain] and iff
-  /// [measure] is set moves it also to location of [measure] along the primary
-  /// measure axis.
+  /// Moves the slider along the domain axis to the location of [domain].
   ///
-  /// If [domain] or [measure] exists beyond either edge of the draw area, the position will
+  /// If [domain] exists beyond either edge of the draw area, the position will
   /// be bound to the nearest edge.
   ///
   /// Updates [_domainValue] with the location of [domain]. For ordinal axes,
@@ -460,17 +429,14 @@ class Slider<D> implements ChartBehavior<D> {
   ///
   /// Returns whether or not the position actually changed. This will generally
   /// be false if the mouse was dragged outside of the domain axis viewport.
-  bool _moveSliderToDomain(D domain, {num measure}) {
+  bool _moveSliderToDomain(D domain) {
     final x = _chart.domainAxis.getLocation(domain);
-    final y =
-        measure != null ? _chart.getMeasureAxis().getLocation(measure) : 0.0;
 
-    return _moveSliderToPoint(Point<double>(x, y));
+    return _moveSliderToPoint(new Point<double>(x, 0.0));
   }
 
   /// Programmatically moves the slider to the location of [domain] on the
-  /// domain axis and iff [measure] is set moves it also to its position along
-  /// the primary measure axis.
+  /// domain axis.
   ///
   /// If [domain] exists beyond either edge of the draw area, the position will
   /// be bound to the nearest edge of the chart. The slider's current domain
@@ -485,19 +451,14 @@ class Slider<D> implements ChartBehavior<D> {
   ///
   /// [skipAnimation] controls whether or not the slider will animate. Animation
   /// is disabled by default.
-  ///
-  /// [measure] controls the vertical position of the handle on the measure
-  /// axis, can only be set if the SliderHandlePosition is set to 'manual'. If
-  /// measure exists beyond the edges of the draw area, the position will be
-  /// bound to the nearest edge of the chart.
-  void moveSliderToDomain(D domain, {num measure, bool skipAnimation = true}) {
+  void moveSliderToDomain(D domain, {bool skipAnimation = true}) {
     // Nothing to do if we are unattached to a chart or asked to move to the
     // current location.
     if (_chart == null || domain == _domainValue) {
       return;
     }
 
-    final positionChanged = _moveSliderToDomain(domain, measure: measure);
+    final positionChanged = _moveSliderToDomain(domain);
 
     if (positionChanged) {
       _dragStateToFireOnPostRender = SliderListenerDragState.end;
@@ -509,7 +470,8 @@ class Slider<D> implements ChartBehavior<D> {
   @override
   void attachTo(BaseChart<D> chart) {
     if (!(chart is CartesianChart)) {
-      throw ArgumentError('Slider can only be attached to a cartesian chart.');
+      throw new ArgumentError(
+          'Slider can only be attached to a cartesian chart.');
     }
 
     _chart = chart as CartesianChart;
@@ -517,7 +479,7 @@ class Slider<D> implements ChartBehavior<D> {
     // Only vertical rendering is supported by this behavior.
     assert(_chart.vertical);
 
-    _view = _SliderLayoutView<D>(
+    _view = new _SliderLayoutView<D>(
         layoutPaintOrder: layoutPaintOrder, handleRenderer: _handleRenderer);
 
     chart.addView(_view);
@@ -600,10 +562,7 @@ class SliderStyle {
 ///
 /// [top] indicates the slider should be rendered relative to the top of the
 /// chart.
-///
-/// [manual] indicates that the slider vertical position can be set every
-/// time the slider moves by calling moveSliderToDomain.
-enum SliderHandlePosition { middle, top, manual }
+enum SliderHandlePosition { middle, top }
 
 /// Layout view component for [Slider].
 class _SliderLayoutView<D> extends LayoutView {
@@ -623,7 +582,7 @@ class _SliderLayoutView<D> extends LayoutView {
 
   _SliderLayoutView(
       {@required int layoutPaintOrder, @required SymbolRenderer handleRenderer})
-      : this.layoutConfig = LayoutViewConfig(
+      : this.layoutConfig = new LayoutViewConfig(
             paintOrder: layoutPaintOrder,
             position: LayoutPosition.DrawArea,
             positionOrder: LayoutViewPositionOrder.drawArea),
@@ -657,8 +616,10 @@ class _SliderLayoutView<D> extends LayoutView {
 
     canvas.drawLine(
         points: [
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.top),
-          Point<num>(sliderElement.domainCenterPoint.x, _drawAreaBounds.bottom),
+          new Point<num>(
+              sliderElement.domainCenterPoint.x, _drawAreaBounds.top),
+          new Point<num>(
+              sliderElement.domainCenterPoint.x, _drawAreaBounds.bottom),
         ],
         stroke: sliderElement.stroke,
         strokeWidthPx: sliderElement.strokeWidthPx);
@@ -670,7 +631,7 @@ class _SliderLayoutView<D> extends LayoutView {
   }
 
   @override
-  Rectangle<int> get componentBounds => _drawAreaBounds;
+  Rectangle<int> get componentBounds => this._drawAreaBounds;
 
   @override
   bool get isSeriesRenderer => false;
@@ -685,12 +646,12 @@ class _SliderElement<D> {
   double strokeWidthPx;
 
   _SliderElement<D> clone() {
-    return _SliderElement<D>()
-      ..domainCenterPoint = domainCenterPoint
-      ..buttonBounds = buttonBounds
-      ..fill = fill
-      ..stroke = stroke
-      ..strokeWidthPx = strokeWidthPx;
+    return new _SliderElement<D>()
+      ..domainCenterPoint = this.domainCenterPoint
+      ..buttonBounds = this.buttonBounds
+      ..fill = this.fill
+      ..stroke = this.stroke
+      ..strokeWidthPx = this.strokeWidthPx;
   }
 
   void updateAnimationPercent(
@@ -707,7 +668,7 @@ class _SliderElement<D> {
     final y = ((targetPoint.y - previousPoint.y) * animationPercent) +
         previousPoint.y;
 
-    domainCenterPoint = Point<int>(x.round(), y.round());
+    domainCenterPoint = new Point<int>(x.round(), y.round());
 
     final previousBounds = localPrevious.buttonBounds;
     final targetBounds = localTarget.buttonBounds;
@@ -724,7 +685,7 @@ class _SliderElement<D> {
         ((targetBounds.left - previousBounds.left) * animationPercent) +
             previousBounds.left;
 
-    buttonBounds = Rectangle<int>(left.round(), top.round(),
+    buttonBounds = new Rectangle<int>(left.round(), top.round(),
         (right - left).round(), (bottom - top).round());
 
     fill = getAnimatedColor(previous.fill, target.fill, animationPercent);
@@ -765,7 +726,7 @@ class _AnimatedSlider<D> {
     final bottom = targetBounds.bottom;
     final left = right;
 
-    newTarget.buttonBounds = Rectangle<int>(left.round(), top.round(),
+    newTarget.buttonBounds = new Rectangle<int>(left.round(), top.round(),
         (right - left).round(), (bottom - top).round());
 
     // Animate the stroke width to 0 so that we don't get a lingering line after
@@ -814,8 +775,8 @@ class SliderEventListener<D> {
 /// [domain] is the domain value at the slider position.
 ///
 /// [dragState] indicates the current state of a drag event.
-typedef SliderListenerCallback<D> = void Function(Point<int> point, D domain,
-    String roleId, SliderListenerDragState dragState);
+typedef SliderListenerCallback<D>(Point<int> point, D domain, String roleId,
+    SliderListenerDragState dragState);
 
 /// Describes the current state of a slider change as a result of a drag event.
 ///

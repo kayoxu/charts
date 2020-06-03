@@ -68,7 +68,7 @@ class NumericAxisSpec extends AxisSpec<num> {
     bool showAxisLine,
     NumericExtents viewport,
   }) {
-    return NumericAxisSpec(
+    return new NumericAxisSpec(
       renderSpec: renderSpec ?? other.renderSpec,
       tickProviderSpec: tickProviderSpec ?? other.tickProviderSpec,
       tickFormatterSpec: tickFormatterSpec ?? other.tickFormatterSpec,
@@ -78,7 +78,7 @@ class NumericAxisSpec extends AxisSpec<num> {
   }
 
   @override
-  void configure(
+  configure(
       Axis<num> axis, ChartContext context, GraphicsFactory graphicsFactory) {
     super.configure(axis, context, graphicsFactory);
 
@@ -88,7 +88,7 @@ class NumericAxisSpec extends AxisSpec<num> {
   }
 
   @override
-  NumericAxis createAxis() => NumericAxis();
+  NumericAxis createAxis() => new NumericAxis();
 
   @override
   bool operator ==(Object other) =>
@@ -141,7 +141,7 @@ class BasicNumericTickProviderSpec implements NumericTickProviderSpec {
 
   @override
   NumericTickProvider createTickProvider(ChartContext context) {
-    final provider = NumericTickProvider();
+    final provider = new NumericTickProvider();
     if (zeroBound != null) {
       provider.zeroBound = zeroBound;
     }
@@ -188,7 +188,7 @@ class NumericEndPointsTickProviderSpec implements NumericTickProviderSpec {
 
   @override
   EndPointsTickProvider<num> createTickProvider(ChartContext context) {
-    return EndPointsTickProvider<num>();
+    return new EndPointsTickProvider<num>();
   }
 
   @override
@@ -204,7 +204,7 @@ class StaticNumericTickProviderSpec implements NumericTickProviderSpec {
 
   @override
   StaticTickProvider<num> createTickProvider(ChartContext context) =>
-      StaticTickProvider<num>(tickSpecs);
+      new StaticTickProvider<num>(tickSpecs);
 
   @override
   bool operator ==(Object other) =>
@@ -232,8 +232,8 @@ class BasicNumericTickFormatterSpec implements NumericTickFormatterSpec {
   @override
   NumericTickFormatter createTickFormatter(ChartContext context) {
     return numberFormat != null
-        ? NumericTickFormatter.fromNumberFormat(numberFormat)
-        : NumericTickFormatter(formatter: formatter);
+        ? new NumericTickFormatter.fromNumberFormat(numberFormat)
+        : new NumericTickFormatter(formatter: formatter);
   }
 
   @override

@@ -41,10 +41,10 @@ import 'series_datum.dart' show SeriesDatum;
 /// [rendererIdKey] can be added as an attribute to user-defined [Series]
 /// objects.
 const AttributeKey<String> rendererIdKey =
-    AttributeKey<String>('SeriesRenderer.rendererId');
+    const AttributeKey<String>('SeriesRenderer.rendererId');
 
 const AttributeKey<SeriesRenderer> rendererKey =
-    AttributeKey<SeriesRenderer>('SeriesRenderer.renderer');
+    const AttributeKey<SeriesRenderer>('SeriesRenderer.renderer');
 
 /// A series renderer draws one or more series of data onto a chart canvas.
 abstract class SeriesRenderer<D> extends LayoutView {
@@ -148,7 +148,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     @required this.rendererId,
     @required int layoutPaintOrder,
     this.symbolRenderer,
-  }) : layoutConfig = LayoutViewConfig(
+  }) : this.layoutConfig = new LayoutViewConfig(
             paintOrder: layoutPaintOrder,
             position: LayoutPosition.DrawArea,
             positionOrder: LayoutViewPositionOrder.drawArea);
@@ -175,7 +175,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
   ///     Setting it to false used different palettes (ie: s1 uses Blue500,
   ///     s2 uses Red500),
   @protected
-  void assignMissingColors(Iterable<MutableSeries<D>> seriesList,
+  assignMissingColors(Iterable<MutableSeries<D>> seriesList,
       {@required bool emptyCategoryUsesSinglePalette}) {
     const defaultCategory = '__default__';
 
@@ -186,14 +186,6 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     bool hasSpecifiedCategory = false;
 
     seriesList.forEach((MutableSeries<D> series) {
-      // Assign the seriesColor as the color of every datum if no colorFn was
-      // provided.
-      if (series.colorFn == null && series.seriesColor != null) {
-        series.colorFn = (_) => series.seriesColor;
-      }
-
-      // This series was missing both seriesColor and a colorFn. Add it to the
-      // "missing" set.
       if (series.colorFn == null) {
         // If there is no category, give it a default category to match logic.
         String category = series.seriesCategory;
@@ -221,18 +213,6 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
             final color = palettes[index % palettes.length].shadeDefault;
             index++;
             series.colorFn = (_) => color;
-            series.seriesColor ??= color;
-          } else {
-            // Fill in missing seriesColor values with the color of the first
-            // datum in the series. Note that [Series.colorFn] should always
-            // return a color.
-            if (series.seriesColor == null) {
-              try {
-                series.seriesColor = series.colorFn(0);
-              } catch (exception) {
-                series.seriesColor = StyleFactory.style.defaultSeriesColor;
-              }
-            }
           }
         });
         return;
@@ -277,18 +257,6 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
         series.fillColorFn ??= (int index) => series.colorFn(index);
       });
     }
-
-    // Fill in any missing seriesColor values with the color of the first datum
-    // in the series. Note that [Series.colorFn] should always return a color.
-    seriesList.forEach((MutableSeries series) {
-      if (series.seriesColor == null) {
-        try {
-          series.seriesColor = series.colorFn(0);
-        } catch (exception) {
-          series.seriesColor = StyleFactory.style.defaultSeriesColor;
-        }
-      }
-    });
   }
 
   @override
@@ -298,11 +266,11 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
 
   @override
   void layout(Rectangle<int> componentBounds, Rectangle<int> drawAreaBounds) {
-    _drawAreaBounds = drawAreaBounds;
+    this._drawAreaBounds = drawAreaBounds;
   }
 
   @override
-  Rectangle<int> get componentBounds => _drawAreaBounds;
+  Rectangle<int> get componentBounds => this._drawAreaBounds;
 
   @override
   bool get isSeriesRenderer => true;
@@ -378,7 +346,7 @@ abstract class BaseSeriesRenderer<D> implements SeriesRenderer<D> {
     var strokeWidthPx = strokeWidthPxFn != null ? strokeWidthPxFn(index) : null;
     strokeWidthPx = strokeWidthPx?.toDouble();
 
-    final details = DatumDetails<D>(
+    final details = new DatumDetails<D>(
         datum: seriesDatum.datum,
         index: seriesDatum.index,
         domain: domainValue,

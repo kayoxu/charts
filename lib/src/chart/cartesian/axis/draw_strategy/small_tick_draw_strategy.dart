@@ -35,31 +35,29 @@ class SmallTickRendererSpec<D> extends BaseRenderSpec<D> {
   final LineStyleSpec lineStyle;
   final int tickLengthPx;
 
-  const SmallTickRendererSpec(
-      {TextStyleSpec labelStyle,
-      this.lineStyle,
-      LineStyleSpec axisLineStyle,
-      TickLabelAnchor labelAnchor,
-      TickLabelJustification labelJustification,
-      int labelOffsetFromAxisPx,
-      int labelOffsetFromTickPx,
-      this.tickLengthPx,
-      int minimumPaddingBetweenLabelsPx,
-      int labelRotation})
-      : super(
+  const SmallTickRendererSpec({
+    TextStyleSpec labelStyle,
+    this.lineStyle,
+    LineStyleSpec axisLineStyle,
+    TickLabelAnchor labelAnchor,
+    TickLabelJustification labelJustification,
+    int labelOffsetFromAxisPx,
+    int labelOffsetFromTickPx,
+    this.tickLengthPx,
+    int minimumPaddingBetweenLabelsPx,
+  }) : super(
             labelStyle: labelStyle,
             labelAnchor: labelAnchor,
             labelJustification: labelJustification,
             labelOffsetFromAxisPx: labelOffsetFromAxisPx,
             labelOffsetFromTickPx: labelOffsetFromTickPx,
             minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-            labelRotation: labelRotation,
             axisLineStyle: axisLineStyle);
 
   @override
   TickDrawStrategy<D> createDrawStrategy(
           ChartContext context, GraphicsFactory graphicsFactory) =>
-      SmallTickDrawStrategy<D>(context, graphicsFactory,
+      new SmallTickDrawStrategy<D>(context, graphicsFactory,
           tickLengthPx: tickLengthPx,
           lineStyleSpec: lineStyle,
           labelStyleSpec: labelStyle,
@@ -68,8 +66,7 @@ class SmallTickRendererSpec<D> extends BaseRenderSpec<D> {
           labelJustification: labelJustification,
           labelOffsetFromAxisPx: labelOffsetFromAxisPx,
           labelOffsetFromTickPx: labelOffsetFromTickPx,
-          minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-          labelRotation: labelRotation);
+          minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx);
 
   @override
   bool operator ==(Object other) {
@@ -95,27 +92,26 @@ class SmallTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
   LineStyle lineStyle;
 
   SmallTickDrawStrategy(
-      ChartContext chartContext, GraphicsFactory graphicsFactory,
-      {int tickLengthPx,
-      LineStyleSpec lineStyleSpec,
-      TextStyleSpec labelStyleSpec,
-      LineStyleSpec axisLineStyleSpec,
-      TickLabelAnchor labelAnchor,
-      TickLabelJustification labelJustification,
-      int labelOffsetFromAxisPx,
-      int labelOffsetFromTickPx,
-      int minimumPaddingBetweenLabelsPx,
-      int labelRotation})
-      : super(chartContext, graphicsFactory,
+    ChartContext chartContext,
+    GraphicsFactory graphicsFactory, {
+    int tickLengthPx,
+    LineStyleSpec lineStyleSpec,
+    TextStyleSpec labelStyleSpec,
+    LineStyleSpec axisLineStyleSpec,
+    TickLabelAnchor labelAnchor,
+    TickLabelJustification labelJustification,
+    int labelOffsetFromAxisPx,
+    int labelOffsetFromTickPx,
+    int minimumPaddingBetweenLabelsPx,
+  }) : super(chartContext, graphicsFactory,
             labelStyleSpec: labelStyleSpec,
             axisLineStyleSpec: axisLineStyleSpec ?? lineStyleSpec,
             labelAnchor: labelAnchor,
             labelJustification: labelJustification,
             labelOffsetFromAxisPx: labelOffsetFromAxisPx,
             labelOffsetFromTickPx: labelOffsetFromTickPx,
-            minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx,
-            labelRotation: labelRotation) {
-    tickLength = tickLengthPx ?? StyleFactory.style.tickLength;
+            minimumPaddingBetweenLabelsPx: minimumPaddingBetweenLabelsPx) {
+    this.tickLength = tickLengthPx ?? StyleFactory.style.tickLength;
     lineStyle =
         StyleFactory.style.createTickLineStyle(graphicsFactory, lineStyleSpec);
   }
@@ -132,25 +128,25 @@ class SmallTickDrawStrategy<D> extends BaseTickDrawStrategy<D> {
     switch (orientation) {
       case AxisOrientation.top:
         double x = tick.locationPx;
-        tickStart = Point(x, axisBounds.bottom - tickLength);
-        tickEnd = Point(x, axisBounds.bottom);
+        tickStart = new Point(x, axisBounds.bottom - tickLength);
+        tickEnd = new Point(x, axisBounds.bottom);
         break;
       case AxisOrientation.bottom:
         double x = tick.locationPx;
-        tickStart = Point(x, axisBounds.top);
-        tickEnd = Point(x, axisBounds.top + tickLength);
+        tickStart = new Point(x, axisBounds.top);
+        tickEnd = new Point(x, axisBounds.top + tickLength);
         break;
       case AxisOrientation.right:
         double y = tick.locationPx;
 
-        tickStart = Point(axisBounds.left, y);
-        tickEnd = Point(axisBounds.left + tickLength, y);
+        tickStart = new Point(axisBounds.left, y);
+        tickEnd = new Point(axisBounds.left + tickLength, y);
         break;
       case AxisOrientation.left:
         double y = tick.locationPx;
 
-        tickStart = Point(axisBounds.right - tickLength, y);
-        tickEnd = Point(axisBounds.right, y);
+        tickStart = new Point(axisBounds.right - tickLength, y);
+        tickEnd = new Point(axisBounds.right, y);
         break;
     }
 

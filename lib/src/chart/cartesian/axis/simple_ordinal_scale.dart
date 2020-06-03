@@ -32,12 +32,12 @@ import 'scale.dart'
 /// width of the bar is [rangeBand] and the position of the bar is retrieved
 /// by [[]].
 class SimpleOrdinalScale implements OrdinalScale {
-  final _stepSizeConfig = StepSizeConfig.auto();
+  final _stepSizeConfig = new StepSizeConfig.auto();
   OrdinalScaleDomainInfo _domain;
-  ScaleOutputExtent _range = ScaleOutputExtent(0, 1);
+  ScaleOutputExtent _range = new ScaleOutputExtent(0, 1);
   double _viewportScale = 1.0;
   double _viewportTranslatePx = 0.0;
-  RangeBandConfig _rangeBandConfig = RangeBandConfig.styleAssignedPercent();
+  RangeBandConfig _rangeBandConfig = new RangeBandConfig.styleAssignedPercent();
 
   bool _scaleChanged = true;
   double _cachedStepSizePixels;
@@ -47,11 +47,11 @@ class SimpleOrdinalScale implements OrdinalScale {
   int _viewportDataSize;
   String _viewportStartingDomain;
 
-  SimpleOrdinalScale() : _domain = OrdinalScaleDomainInfo();
+  SimpleOrdinalScale() : _domain = new OrdinalScaleDomainInfo();
 
   SimpleOrdinalScale._copy(SimpleOrdinalScale other)
       : _domain = other._domain.copy(),
-        _range = ScaleOutputExtent(other._range.start, other._range.end),
+        _range = new ScaleOutputExtent(other._range.start, other._range.end),
         _viewportScale = other._viewportScale,
         _viewportTranslatePx = other._viewportTranslatePx,
         _rangeBandConfig = other._rangeBandConfig;
@@ -80,12 +80,12 @@ class SimpleOrdinalScale implements OrdinalScale {
   @override
   set rangeBandConfig(RangeBandConfig barGroupWidthConfig) {
     if (barGroupWidthConfig == null) {
-      throw ArgumentError.notNull('RangeBandConfig must not be null.');
+      throw new ArgumentError.notNull('RangeBandConfig must not be null.');
     }
 
     if (barGroupWidthConfig.type == RangeBandType.fixedDomain ||
         barGroupWidthConfig.type == RangeBandType.none) {
-      throw ArgumentError(
+      throw new ArgumentError(
           'barGroupWidthConfig must not be NONE or FIXED_DOMAIN');
     }
 
@@ -99,7 +99,7 @@ class SimpleOrdinalScale implements OrdinalScale {
   @override
   set stepSizeConfig(StepSizeConfig config) {
     if (config != null && config.type != StepSizeType.autoDetect) {
-      throw ArgumentError(
+      throw new ArgumentError(
           'Ordinal scales only support StepSizeConfig of type Auto');
     }
     // Nothing is set because only auto is supported.
@@ -170,13 +170,13 @@ class SimpleOrdinalScale implements OrdinalScale {
   ScaleOutputExtent get range => _range;
 
   @override
-  void resetDomain() {
+  resetDomain() {
     _domain.clear();
     _scaleChanged = true;
   }
 
   @override
-  void resetViewportSettings() {
+  resetViewportSettings() {
     _viewportScale = 1.0;
     _viewportTranslatePx = 0.0;
     _scaleChanged = true;
@@ -205,7 +205,7 @@ class SimpleOrdinalScale implements OrdinalScale {
     if (startingDomain != null &&
         viewportDataSize != null &&
         viewportDataSize <= 0) {
-      throw ArgumentError('viewportDataSize can' 't be less than 1.');
+      throw new ArgumentError('viewportDataSize can' 't be less than 1.');
     }
 
     _scaleChanged = true;
@@ -280,7 +280,7 @@ class SimpleOrdinalScale implements OrdinalScale {
   }
 
   @override
-  SimpleOrdinalScale copy() => SimpleOrdinalScale._copy(this);
+  SimpleOrdinalScale copy() => new SimpleOrdinalScale._copy(this);
 
   void _updateCachedFields(
       double stepSizePixels, double rangeBandPixels, double rangeBandShift) {
@@ -335,7 +335,7 @@ class SimpleOrdinalScale implements OrdinalScale {
       case RangeBandType.fixedDomain:
       case RangeBandType.none:
       default:
-        throw StateError('RangeBandType must not be NONE or FIXED_DOMAIN');
+        throw new StateError('RangeBandType must not be NONE or FIXED_DOMAIN');
         break;
     }
 

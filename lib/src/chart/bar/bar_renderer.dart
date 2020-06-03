@@ -52,8 +52,8 @@ class BarRenderer<D>
 
   factory BarRenderer({BarRendererConfig config, String rendererId}) {
     rendererId ??= 'bar';
-    config ??= BarRendererConfig();
-    return BarRenderer.internal(config: config, rendererId: rendererId);
+    config ??= new BarRendererConfig();
+    return new BarRenderer.internal(config: config, rendererId: rendererId);
   }
 
   /// This constructor is protected because it is used by child classes, which
@@ -99,20 +99,20 @@ class BarRenderer<D>
     Point<double> chartPosition;
 
     if (renderingVertically) {
-      chartPosition = Point<double>(
+      chartPosition = new Point<double>(
           (bounds.left + (bounds.width / 2)).toDouble(), bounds.top.toDouble());
     } else {
-      chartPosition = Point<double>(
+      chartPosition = new Point<double>(
           isRtl ? bounds.left.toDouble() : bounds.right.toDouble(),
           (bounds.top + (bounds.height / 2)).toDouble());
     }
 
-    return DatumDetails.from(details, chartPosition: chartPosition);
+    return new DatumDetails.from(details, chartPosition: chartPosition);
   }
 
   @override
   BarRendererElement<D> getBaseDetails(dynamic datum, int index) {
-    return BarRendererElement<D>();
+    return new BarRendererElement<D>();
   }
 
   CornerStrategy get cornerStrategy {
@@ -145,7 +145,7 @@ class BarRenderer<D>
       int numBarGroups,
       bool measureIsNull,
       bool measureIsNegative}) {
-    return AnimatedBar<D>(
+    return new AnimatedBar<D>(
         key: key, datum: datum, series: series, domainValue: domainValue)
       ..setNewTarget(makeBarRendererElement(
           color: color,
@@ -192,7 +192,7 @@ class BarRenderer<D>
       int numBarGroups,
       bool measureIsNull,
       bool measureIsNegative}) {
-    return BarRendererElement<D>()
+    return new BarRendererElement<D>()
       ..color = color
       ..dashPattern = dashPattern
       ..fillColor = fillColor
@@ -238,7 +238,7 @@ class BarRenderer<D>
 
       if (bar != unmodifiedBar) {
         bounds = renderingVertically
-            ? Rectangle<int>(
+            ? new Rectangle<int>(
                 bar.bounds.left,
                 max(
                     0,
@@ -247,7 +247,7 @@ class BarRenderer<D>
                 bar.bounds.width,
                 max(0, bar.bounds.height - _stackedBarPadding),
               )
-            : Rectangle<int>(
+            : new Rectangle<int>(
                 max(
                     0,
                     bar.bounds.left +
@@ -258,7 +258,7 @@ class BarRenderer<D>
               );
       }
 
-      bars.add(CanvasRect(bounds,
+      bars.add(new CanvasRect(bounds,
           dashPattern: bar.dashPattern,
           fill: bar.fillColor,
           pattern: bar.fillPattern,
@@ -292,7 +292,7 @@ class BarRenderer<D>
       roundBottomRight = renderingVertically || isRtl ? false : true;
     }
 
-    final barStack = CanvasBarStack(
+    final barStack = new CanvasBarStack(
       bars,
       radius: cornerStrategy.getRadius(maxBarWidth),
       stackedBarPadding: _stackedBarPadding,
@@ -370,7 +370,7 @@ class BarRenderer<D>
     final width = right - left;
     final height = bottom - top;
 
-    return Rectangle(left, top, width, height);
+    return new Rectangle(left, top, width, height);
   }
 
   /// Generates a set of bounds that describe a bar.
@@ -385,10 +385,6 @@ class BarRenderer<D>
       double previousBarGroupWeight,
       double barGroupWeight,
       int numBarGroups) {
-    // TODO: Investigate why this is negative for a DateTime domain
-    // in RTL mode.
-    domainWidth = domainWidth.abs();
-
     // If no weights were passed in, default to equal weight per bar.
     if (barGroupWeight == null) {
       barGroupWeight = 1 / numBarGroups;
@@ -446,11 +442,11 @@ class BarRenderer<D>
     Rectangle<int> bounds;
     if (this.renderingVertically) {
       // Rectangle clamps to zero width/height
-      bounds = Rectangle<int>(domainStart, measureEnd, domainEnd - domainStart,
-          measureStart - measureEnd);
+      bounds = new Rectangle<int>(domainStart, measureEnd,
+          domainEnd - domainStart, measureStart - measureEnd);
     } else {
       // Rectangle clamps to zero width/height
-      bounds = Rectangle<int>(min(measureStart, measureEnd), domainStart,
+      bounds = new Rectangle<int>(min(measureStart, measureEnd), domainStart,
           (measureEnd - measureStart).abs(), domainEnd - domainStart);
     }
     return bounds;
@@ -515,8 +511,8 @@ class BarRendererElement<D> extends BaseBarRendererElement
     var left = ((targetBounds.left - previousBounds.left) * animationPercent) +
         previousBounds.left;
 
-    bounds = Rectangle<int>(left.round(), top.round(), (right - left).round(),
-        (bottom - top).round());
+    bounds = new Rectangle<int>(left.round(), top.round(),
+        (right - left).round(), (bottom - top).round());
 
     roundPx = localTarget.roundPx;
 
@@ -533,11 +529,11 @@ class AnimatedBar<D> extends BaseAnimatedBar<D, BarRendererElement<D>> {
       : super(key: key, datum: datum, series: series, domainValue: domainValue);
 
   @override
-  void animateElementToMeasureAxisPosition(BaseBarRendererElement target) {
+  animateElementToMeasureAxisPosition(BaseBarRendererElement target) {
     final BarRendererElement localTarget = target;
 
     // TODO: Animate out bars in the middle of a stack.
-    localTarget.bounds = Rectangle<int>(
+    localTarget.bounds = new Rectangle<int>(
         localTarget.bounds.left + (localTarget.bounds.width / 2).round(),
         localTarget.measureAxisPosition.round(),
         0,
@@ -556,5 +552,5 @@ class AnimatedBar<D> extends BaseAnimatedBar<D, BarRendererElement<D>> {
 
   @override
   BarRendererElement<D> clone(BarRendererElement bar) =>
-      BarRendererElement<D>.clone(bar);
+      new BarRendererElement<D>.clone(bar);
 }

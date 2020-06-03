@@ -41,8 +41,8 @@ class PercentAxisSpec extends NumericAxisSpec {
             tickProviderSpec: tickProviderSpec ??
                 const BasicNumericTickProviderSpec(dataIsInWholeNumbers: false),
             tickFormatterSpec: tickFormatterSpec ??
-                BasicNumericTickFormatterSpec.fromNumberFormat(
-                    NumberFormat.percentPattern()),
+                new BasicNumericTickFormatterSpec.fromNumberFormat(
+                    new NumberFormat.percentPattern()),
             showAxisLine: showAxisLine,
             viewport: viewport ?? const NumericExtents(0.0, 1.0));
 

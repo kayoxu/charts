@@ -51,10 +51,6 @@ abstract class LegendEntryGenerator<D> {
   TextStyleSpec get entryTextStyle;
 
   set entryTextStyle(TextStyleSpec entryTextStyle);
-
-  bool get showOverlaySeries;
-
-  set showOverlaySeries(bool showOverlaySeries);
 }
 
 /// Options for calculating what measures are shown when there is no selection.

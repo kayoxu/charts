@@ -15,8 +15,6 @@
 
 import 'dart:math' as math show max, min;
 
-import '../../../common/style/style_factory.dart' show StyleFactory;
-
 /// Scale used to convert data input domain units to output range units.
 ///
 /// This is the immutable portion of the Scale definition. Used for converting
@@ -267,7 +265,8 @@ class RangeBandConfig {
   /// the number of series in their preprocess.
   RangeBandConfig.styleAssignedPercent([int seriesCount = 1])
       : type = RangeBandType.styleAssignedPercentOfStep,
-        size = StyleFactory.style.rangeBandSize ?? 0.65;
+        // TODO: retrieve value from the stylepack once available.
+        size = 0.65;
 
   /// Creates a config that defines the rangeBand as the stepSize - pixels.
   ///

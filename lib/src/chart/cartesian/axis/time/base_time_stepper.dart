@@ -57,7 +57,7 @@ abstract class BaseTimeStepper implements TimeStepper {
     // Keep the steps iterable unless time extent changes, so the same iterator
     // can be used and reset for different increments.
     if (_stepsIterable == null || _stepsIterable.timeExtent != timeExtent) {
-      _stepsIterable = _TimeStepIteratorFactoryImpl(timeExtent, this);
+      _stepsIterable = new _TimeStepIteratorFactoryImpl(timeExtent, this);
     }
     return _stepsIterable;
   }
@@ -67,12 +67,12 @@ abstract class BaseTimeStepper implements TimeStepper {
     final stepBefore = getStepTimeBeforeInclusive(timeExtent.start, 1);
     final stepAfter = getStepTimeAfterInclusive(timeExtent.end, 1);
 
-    return DateTimeExtents(start: stepBefore, end: stepAfter);
+    return new DateTimeExtents(start: stepBefore, end: stepAfter);
   }
 
   DateTime getStepTimeAfterInclusive(DateTime time, int tickIncrement) {
     final boundedStart = getStepTimeBeforeInclusive(time, tickIncrement);
-    if (boundedStart.isAtSameMomentAs(time)) {
+    if (boundedStart == time) {
       return boundedStart;
     }
     return getNextStepTime(boundedStart, tickIncrement);
@@ -127,8 +127,8 @@ class _TimeStepIteratorFactoryImpl extends TimeStepIteratorFactory {
       DateTimeExtents timeExtent, BaseTimeStepper stepper) {
     final startTime = timeExtent.start;
     final endTime = timeExtent.end;
-    return _TimeStepIteratorFactoryImpl._internal(
-        _TimeStepIteratorImpl(startTime, endTime, stepper), timeExtent);
+    return new _TimeStepIteratorFactoryImpl._internal(
+        new _TimeStepIteratorImpl(startTime, endTime, stepper), timeExtent);
   }
 
   @override

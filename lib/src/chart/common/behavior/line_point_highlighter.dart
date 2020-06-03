@@ -133,16 +133,16 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
             LinePointHighlighterFollowLineType.nearest,
         dashPattern = dashPattern ?? [1, 3],
         drawFollowLinesAcrossChart = drawFollowLinesAcrossChart ?? true,
-        symbolRenderer = symbolRenderer ?? CircleSymbolRenderer() {
+        symbolRenderer = symbolRenderer ?? new CircleSymbolRenderer() {
     _lifecycleListener =
-        LifecycleListener<D>(onAxisConfigured: _updateViewData);
+        new LifecycleListener<D>(onAxisConfigured: _updateViewData);
   }
 
   @override
   void attachTo(BaseChart<D> chart) {
     _chart = chart;
 
-    _view = _LinePointLayoutView<D>(
+    _view = new _LinePointLayoutView<D>(
         chart: chart,
         layoutPaintOrder: LayoutViewPaintOrder.linePointHighlighter,
         showHorizontalFollowLine: showHorizontalFollowLine,
@@ -205,7 +205,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
           ? detail.radiusPx.toDouble() + radiusPaddingPx
           : defaultRadiusPx;
 
-      final pointKey = '${lineKey}::${detail.domain}::${detail.measure}';
+      final pointKey = '${lineKey}::${detail.domain}';
 
       // If we already have a point for that key, use it.
       _AnimatedPoint<D> animatingPoint;
@@ -213,16 +213,16 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
         animatingPoint = _seriesPointMap[pointKey];
       } else {
         // Create a new point and have it animate in from axis.
-        final point = _DatumPoint<D>(
+        final point = new _DatumPoint<D>(
             datum: datum,
             domain: detail.domain,
             series: series,
             x: domainAxis.getLocation(detail.domain),
             y: measureAxis.getLocation(0.0));
 
-        animatingPoint = _AnimatedPoint<D>(
+        animatingPoint = new _AnimatedPoint<D>(
             key: pointKey, overlaySeries: series.overlaySeries)
-          ..setNewTarget(_PointRendererElement<D>()
+          ..setNewTarget(new _PointRendererElement<D>()
             ..point = point
             ..color = detail.color
             ..fillColor = detail.fillColor
@@ -235,7 +235,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
       newSeriesMap[pointKey] = animatingPoint;
 
       // Create a new line using the final point locations.
-      final point = _DatumPoint<D>(
+      final point = new _DatumPoint<D>(
           datum: datum,
           domain: detail.domain,
           series: series,
@@ -246,7 +246,7 @@ class LinePointHighlighter<D> implements ChartBehavior<D> {
       _currentKeys.add(pointKey);
 
       // Get the point element we are going to setup.
-      final pointElement = _PointRendererElement<D>()
+      final pointElement = new _PointRendererElement<D>()
         ..point = point
         ..color = detail.color
         ..fillColor = detail.fillColor
@@ -309,7 +309,7 @@ class _LinePointLayoutView<D> extends LayoutView {
     @required this.symbolRenderer,
     this.dashPattern,
     this.drawFollowLinesAcrossChart,
-  }) : layoutConfig = LayoutViewConfig(
+  }) : this.layoutConfig = new LayoutViewConfig(
             paintOrder: LayoutViewPaintOrder.linePointHighlighter,
             position: LayoutPosition.DrawArea,
             positionOrder: layoutPaintOrder);
@@ -333,7 +333,7 @@ class _LinePointLayoutView<D> extends LayoutView {
 
   @override
   void layout(Rectangle<int> componentBounds, Rectangle<int> drawAreaBounds) {
-    _drawAreaBounds = drawAreaBounds;
+    this._drawAreaBounds = drawAreaBounds;
   }
 
   @override
@@ -449,12 +449,12 @@ class _LinePointLayoutView<D> extends LayoutView {
 
         canvas.drawLine(
             points: [
-              Point<num>(leftBound, pointElement.point.y),
-              Point<num>(rightBound, pointElement.point.y),
+              new Point<num>(leftBound, pointElement.point.y),
+              new Point<num>(rightBound, pointElement.point.y),
             ],
             stroke: StyleFactory.style.linePointHighlighterColor,
             strokeWidthPx: 1.0,
-            dashPattern: dashPattern);
+            dashPattern: [1, 3]);
 
         if (showHorizontalFollowLine ==
             LinePointHighlighterFollowLineType.nearest) {
@@ -473,8 +473,8 @@ class _LinePointLayoutView<D> extends LayoutView {
 
         canvas.drawLine(
             points: [
-              Point<num>(pointElement.point.x, topBound),
-              Point<num>(
+              new Point<num>(pointElement.point.x, topBound),
+              new Point<num>(
                   pointElement.point.x, drawBounds.top + drawBounds.height),
             ],
             stroke: StyleFactory.style.linePointHighlighterColor,
@@ -500,7 +500,7 @@ class _LinePointLayoutView<D> extends LayoutView {
         continue;
       }
 
-      final bounds = Rectangle<double>(
+      final bounds = new Rectangle<double>(
           pointElement.point.x - pointElement.radiusPx,
           pointElement.point.y - pointElement.radiusPx,
           pointElement.radiusPx * 2,
@@ -516,7 +516,7 @@ class _LinePointLayoutView<D> extends LayoutView {
   }
 
   @override
-  Rectangle<int> get componentBounds => _drawAreaBounds;
+  Rectangle<int> get componentBounds => this._drawAreaBounds;
 
   @override
   bool get isSeriesRenderer => false;
@@ -531,7 +531,7 @@ class _DatumPoint<D> extends Point<double> {
       : super(x, y);
 
   factory _DatumPoint.from(_DatumPoint<D> other, [double x, double y]) {
-    return _DatumPoint<D>(
+    return new _DatumPoint<D>(
         datum: other.datum,
         domain: other.domain,
         series: other.series,
@@ -550,14 +550,14 @@ class _PointRendererElement<D> {
   SymbolRenderer symbolRenderer;
 
   _PointRendererElement<D> clone() {
-    return _PointRendererElement<D>()
-      ..point = point
-      ..color = color
-      ..fillColor = fillColor
-      ..measureAxisPosition = measureAxisPosition
-      ..radiusPx = radiusPx
-      ..strokeWidthPx = strokeWidthPx
-      ..symbolRenderer = symbolRenderer;
+    return new _PointRendererElement<D>()
+      ..point = this.point
+      ..color = this.color
+      ..fillColor = this.fillColor
+      ..measureAxisPosition = this.measureAxisPosition
+      ..radiusPx = this.radiusPx
+      ..strokeWidthPx = this.strokeWidthPx
+      ..symbolRenderer = this.symbolRenderer;
   }
 
   void updateAnimationPercent(_PointRendererElement previous,
@@ -569,7 +569,7 @@ class _PointRendererElement<D> {
 
     final y = _lerpDouble(previousPoint.y, targetPoint.y, animationPercent);
 
-    point = _DatumPoint<D>.from(targetPoint, x, y);
+    point = new _DatumPoint<D>.from(targetPoint, x, y);
 
     color = getAnimatedColor(previous.color, target.color, animationPercent);
 
@@ -625,7 +625,7 @@ class _AnimatedPoint<D> {
     // Set the target measure value to the axis position for all points.
     final targetPoint = newTarget.point;
 
-    final newPoint = _DatumPoint<D>.from(targetPoint, targetPoint.x,
+    final newPoint = new _DatumPoint<D>.from(targetPoint, targetPoint.x,
         newTarget.measureAxisPosition.roundToDouble());
 
     newTarget.point = newPoint;
