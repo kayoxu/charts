@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="d">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/gradle_wrapper2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/charts_common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/charts_common/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/charts_common/intellij_linux.blazeproject" beforeDir="false" afterPath="$PROJECT_DIR$/intellij_linux.blazeproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/charts_common/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/charts_common/studio_linux.blazeproject" beforeDir="false" afterPath="$PROJECT_DIR$/studio_linux.blazeproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/charts_common/studio_macos.blazeproject" beforeDir="false" afterPath="$PROJECT_DIR$/studio_macos.blazeproject" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1cnJGpK2fzkbLPWsTBHVANrVEG2" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+    <property name="show.migrate.to.gradle.popup" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="" />
+      <created>1591158330330</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1591158330330</updated>
+    </task>
+    <task id="LOCAL-00001" summary="d">
+      <created>1591158620496</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1591158620496</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="d" />
+    <option name="LAST_COMMIT_MESSAGE" value="d" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="536" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591158678849">
+      <screen x="0" y="23" width="1920" height="1018" />
+    </state>
+    <state x="536" y="194" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1591158678849" />
+    <state x="809" y="329" key="#com.intellij.ide.util.TreeFileChooserDialog" timestamp="1591158644571">
+      <screen x="0" y="23" width="1920" height="1018" />
+    </state>
+    <state x="809" y="329" key="#com.intellij.ide.util.TreeFileChooserDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1591158644571" />
+    <state x="665" y="134" key="CommitChangelistDialog2" timestamp="1591158739890">
+      <screen x="0" y="23" width="1920" height="1018" />
+    </state>
+    <state x="665" y="134" key="CommitChangelistDialog2/0.23.1920.1018@0.23.1920.1018" timestamp="1591158739890" />
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2" timestamp="1591158622128">
+      <screen x="0" y="23" width="1920" height="1018" />
+    </state>
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1591158622128" />
+  </component>
+</project>
