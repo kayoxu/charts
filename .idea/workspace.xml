@@ -1,173 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="d">
-      <change beforePath="$PROJECT_DIR$/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/common.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/common.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_error_decorator.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_lane_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_lane_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_lane_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_lane_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_renderer_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_target_line_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_target_line_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_target_line_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_target_line_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer_element.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/base_bar_renderer_element.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/axis.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/axis.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/axis_tick.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/axis_tick.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/collision_report.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/collision_report.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/base_tick_draw_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/base_tick_draw_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/gridline_draw_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/gridline_draw_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/none_draw_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/none_draw_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/small_tick_draw_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/small_tick_draw_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/tick_draw_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/draw_strategy/tick_draw_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/end_points_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/end_points_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/bucketing_numeric_axis.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/bucketing_numeric_axis.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/bucketing_numeric_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/bucketing_numeric_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_domain_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_domain_info.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_function.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_function.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_viewport.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/linear/linear_scale_viewport.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_extents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_extents.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/numeric_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_extents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_extents.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_scale_domain_info.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_scale_domain_info.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/ordinal_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/simple_ordinal_scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/simple_ordinal_scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/bucketing_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/bucketing_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/date_time_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/date_time_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/end_points_time_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/end_points_time_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/numeric_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/numeric_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/ordinal_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/ordinal_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/percent_axis_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/percent_axis_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/tick_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/spec/tick_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/static_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/static_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick_formatter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick_formatter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/auto_adjusting_date_time_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/auto_adjusting_date_time_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/base_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/base_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_axis.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_axis.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_extents.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_extents.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_scale.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_scale.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_tick_formatter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/date_time_tick_formatter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/day_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/day_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/hour_tick_formatter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/hour_tick_formatter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/hour_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/hour_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/minute_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/minute_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/month_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/month_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/simple_time_tick_formatter.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_range_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_range_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_range_tick_provider_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_range_tick_provider_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_tick_formatter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_tick_formatter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_tick_formatter_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/time_tick_formatter_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/year_time_stepper.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/axis/time/year_time_stepper.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/cartesian_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/cartesian_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/cartesian/cartesian_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/cartesian/cartesian_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/base_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/base_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/a11y_explore_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/a11y_explore_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/a11y_node.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/a11y_node.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/domain_a11y_explore_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/domain_a11y_explore_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/a11y/keyboard_domain_navigator.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/calculation/percent_injector.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/calculation/percent_injector.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/chart_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/chart_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/chart_title/chart_title.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/chart_title/chart_title.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/domain_highlighter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/domain_highlighter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/domain_outliner.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/initial_selection.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/initial_selection.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/datum_legend.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/datum_legend.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend_entry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend_entry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend_entry_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/legend_entry_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/per_datum_legend_entry_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/per_datum_legend_entry_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/per_series_legend_entry_generator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/per_series_legend_entry_generator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/series_legend.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/legend/series_legend.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/line_point_highlighter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/line_point_highlighter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/range_annotation.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/range_annotation.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/lock_selection.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/lock_selection.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/select_nearest.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/select_nearest.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/selection_trigger.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/selection/selection_trigger.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/slider/slider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/slider/slider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/sliding_viewport.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/sliding_viewport.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/initial_hint_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/initial_hint_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/pan_and_zoom_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/pan_and_zoom_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/pan_behavior.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/pan_behavior.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/panning_tick_provider.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/behavior/zoom/panning_tick_provider.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/canvas_shapes.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/canvas_shapes.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/chart_canvas.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/chart_canvas.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/chart_context.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/chart_context.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/datum_details.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/datum_details.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/processed_series.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/processed_series.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/selection_model/selection_model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/selection_model/selection_model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/series_datum.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/series_datum.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/series_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/series_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/series_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/series_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/unitconverter/identity_converter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/unitconverter/identity_converter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/common/unitconverter/unit_converter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/common/unitconverter/unit_converter.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/layout/layout_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/layout/layout_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/layout/layout_manager.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/layout/layout_manager.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/layout/layout_manager_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/layout/layout_manager_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/layout/layout_margin_strategy.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/layout/layout_margin_strategy.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/layout/layout_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/layout/layout_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/line/line_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/line/line_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/line/line_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/line/line_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/line/line_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/line/line_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/pie/arc_label_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/pie/arc_label_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/pie/arc_renderer_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/pie/pie_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/pie/pie_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/comparison_points_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/comparison_points_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/point_renderer_decorator.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/scatter_plot_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/scatter_plot_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/symbol_annotation_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/symbol_annotation_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/scatter_plot/symbol_annotation_renderer_config.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/scatter_plot/symbol_annotation_renderer_config.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/time_series/time_series_chart.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/time_series/time_series_chart.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/base_treemap_renderer.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/dice_treemap_renderer.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/slice_dice_treemap_renderer.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/slice_treemap_renderer.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/squarified_treemap_renderer.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/treemap_chart.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/treemap_label_decorator.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/treemap_renderer_config.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/treemap_renderer_decorator.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/treemap/treemap_renderer_element.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/color.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/color.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/date_time_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/date_time_factory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/gesture_listener.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/gesture_listener.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/graphics_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/graphics_factory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/line_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/line_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/material_palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/material_palette.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/math.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/math.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/paint_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/paint_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/palette.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/palette.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/performance.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/performance.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/proxy_gesture_listener.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/proxy_gesture_listener.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/rate_limit_utils.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/rtl_spec.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/rtl_spec.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/style/material_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/style/material_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/style/style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/style/style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/style/style_factory.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/style/style_factory.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/symbol_renderer.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/symbol_renderer.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/text_element.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/text_element.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/text_measurement.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/text_measurement.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/text_style.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/text_style.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/common/typed_registry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/common/typed_registry.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/data/series.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/data/series.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/data/tree.dart" beforeDir="false" />
+    <list default="true" id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +43,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591158620496</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="d">
+      <created>1591170225361</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1591170225361</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -224,13 +66,13 @@
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
     <state x="809" y="329" key="#com.intellij.ide.util.TreeFileChooserDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1591158644571" />
-    <state x="665" y="134" key="CommitChangelistDialog2" timestamp="1591158739890">
+    <state x="665" y="134" key="CommitChangelistDialog2" timestamp="1591170225110">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
-    <state x="665" y="134" key="CommitChangelistDialog2/0.23.1920.1018@0.23.1920.1018" timestamp="1591158739890" />
-    <state x="672" y="260" key="Vcs.Push.Dialog.v2" timestamp="1591158622128">
+    <state x="665" y="134" key="CommitChangelistDialog2/0.23.1920.1018@0.23.1920.1018" timestamp="1591170225110" />
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2" timestamp="1591170227446">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
-    <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1591158622128" />
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1591170227446" />
   </component>
 </project>
