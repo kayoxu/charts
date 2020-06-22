@@ -1,9 +1,9 @@
 
 import 'dart:math';
 
-import '../../flutter.dart';
-import '../text_element.dart';
-import '../text_style.dart' as style;
+import '../flutter.dart';
+import 'text_element.dart';
+import 'text_style.dart' as style;
 
 class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
   @override
