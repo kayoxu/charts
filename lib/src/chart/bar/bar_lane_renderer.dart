@@ -1,422 +1,369 @@
-import 'dart:math' show Rectangle;
+// Copyright 2018 the Charts project authors. Please see the AUTHORS file
+// for details.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-import 'package:meta/meta.dart' show required;
+import 'dart:collection' show LinkedHashMap;
 
-import '../../common/color.dart' show Color;
-import '../../common/graphics_factory.dart' show GraphicsFactory;
-import '../../common/text_element.dart' show TextDirection, TextElement;
-import '../../common/text_style.dart' show TextStyle;
-import '../../data/series.dart' show AccessorFn;
-import '../cartesian/axis/spec/axis_spec.dart' show TextStyleSpec;
+import '../../data/series.dart' show AttributeKey;
+import '../cartesian/axis/axis.dart'
+    show ImmutableAxis, domainAxisKey, measureAxisKey;
+import '../cartesian/cartesian_chart.dart' show CartesianChart;
 import '../common/chart_canvas.dart' show ChartCanvas;
-import 'bar_renderer.dart' show ImmutableBarRendererElement;
+import '../common/processed_series.dart' show ImmutableSeries, MutableSeries;
+import 'bar_lane_renderer_config.dart' show BarLaneRendererConfig;
+import 'bar_renderer.dart' show AnimatedBar, BarRenderer, BarRendererElement;
 import 'bar_renderer_decorator.dart' show BarRendererDecorator;
+import 'base_bar_renderer.dart'
+    show
+    barGroupCountKey,
+    barGroupIndexKey,
+    barGroupWeightKey,
+    previousBarGroupWeightKey,
+    stackKeyKey;
+import 'base_bar_renderer_element.dart' show BaseBarRendererElement;
 
-class BarLabelDecorator<D> extends BarRendererDecorator<D> {
-  // Default configuration
-  static const _defaultLabelPosition = BarLabelPosition.auto;
-  static const _defaultLabelPadding = 5;
-  static const _defaultLabelPlacement = BarLabelPlacement.followMeasureAxis;
-  static const _defaultHorizontalLabelAnchor = BarLabelAnchor.start;
-  static const _defaultVerticalLabelAnchor = BarLabelAnchor.end;
-  static final _defaultInsideLabelStyle =
-  TextStyleSpec(fontSize: 12, color: Color.white);
-  static final _defaultOutsideLabelStyle =
-  TextStyleSpec(fontSize: 12, color: Color.black);
-  static final _labelSplitPattern = '\n';
-  static final _defaultMultiLineLabelPadding = 2;
+/// Key for storing a list of all domain values that exist in the series data.
+///
+/// In grouped stacked mode, this list will contain a combination of domain
+/// value and series category.
+const domainValuesKey = const AttributeKey<Set>('BarLaneRenderer.domainValues');
 
-  /// Configures [TextStyleSpec] for labels placed inside the bars.
-  final TextStyleSpec insideLabelStyleSpec;
+/// Renders series data as a series of bars with lanes.
+///
+/// Every stack of bars will have a swim lane rendered underneath the series
+/// data, in a gray color by default. The swim lane occupies the same width as
+/// the bar elements, and will be completely covered up if the bar stack happens
+/// to take up the entire measure domain range.
+///
+/// If every bar that shares a domain value has a null measure value, then the
+/// swim lanes may optionally be merged together into one wide lane that covers
+/// the full domain range band width.
+class BarLaneRenderer<D> extends BarRenderer<D> {
+  final BarRendererDecorator barRendererDecorator;
 
-  /// Configures [TextStyleSpec] for labels placed outside the bars.
-  final TextStyleSpec outsideLabelStyleSpec;
+  /// Store a map of domain+barGroupIndex+category index to bar lanes in a
+  /// stack.
+  ///
+  /// This map is used to render all the bars in a stack together, to account
+  /// for rendering effects that need to take the full stack into account (e.g.
+  /// corner rounding).
+  ///
+  /// [LinkedHashMap] is used to render the bars on the canvas in the same order
+  /// as the data was given to the chart. For the case where both grouping and
+  /// stacking are disabled, this means that bars for data later in the series
+  /// will be drawn "on top of" bars earlier in the series.
+  final _barLaneStackMap = new LinkedHashMap<String, List<AnimatedBar<D>>>();
 
-  /// Configures where to place the label relative to the bars.
-  final BarLabelPosition labelPosition;
+  /// Store a map of flags to track whether all measure values for a given
+  /// domain value are null, for every series on the chart.
+  final _allMeasuresForDomainNullMap = new LinkedHashMap<D, bool>();
 
-  /// Configures where to place the label relative to the axis.
-  final BarLabelPlacement labelPlacement;
+  factory BarLaneRenderer({BarLaneRendererConfig config, String rendererId}) {
+    rendererId ??= 'bar';
+    config ??= new BarLaneRendererConfig();
+    return new BarLaneRenderer._internal(
+        config: config, rendererId: rendererId);
+  }
 
-  /// For labels drawn inside the bar, configures label anchor position.
-  final BarLabelAnchor labelAnchor;
-
-  /// Space before and after the label text.
-  final int labelPadding;
-
-  BarLabelDecorator(
-      {TextStyleSpec insideLabelStyleSpec,
-        TextStyleSpec outsideLabelStyleSpec,
-        this.labelAnchor,
-        this.labelPosition = _defaultLabelPosition,
-        this.labelPlacement = _defaultLabelPlacement,
-        this.labelPadding = _defaultLabelPadding})
-      : insideLabelStyleSpec = insideLabelStyleSpec ?? _defaultInsideLabelStyle,
-        outsideLabelStyleSpec =
-            outsideLabelStyleSpec ?? _defaultOutsideLabelStyle;
+  BarLaneRenderer._internal({BarLaneRendererConfig config, String rendererId})
+      : barRendererDecorator = config.barRendererDecorator,
+        super.internal(config: config, rendererId: rendererId);
 
   @override
-  void decorate(Iterable<ImmutableBarRendererElement<D>> barElements,
-      ChartCanvas canvas, GraphicsFactory graphicsFactory,
-      {@required Rectangle drawBounds,
-        @required double animationPercent,
-        @required bool renderingVertically,
-        bool rtl = false}) {
-    // Only decorate the bars when animation is at 100%.
-    if (animationPercent != 1.0) {
-      return;
-    }
+  void preprocessSeries(List<MutableSeries<D>> seriesList) {
+    super.preprocessSeries(seriesList);
 
-    if (renderingVertically) {
-      _decorateVerticalBars(
-          barElements, canvas, graphicsFactory, drawBounds, rtl);
-    } else {
-      _decorateHorizontalBars(
-          barElements, canvas, graphicsFactory, drawBounds, rtl);
-    }
+    _allMeasuresForDomainNullMap.clear();
+
+    seriesList.forEach((MutableSeries<D> series) {
+      final domainFn = series.domainFn;
+      final measureFn = series.rawMeasureFn;
+
+      final domainValues = new Set<D>();
+
+      for (var barIndex = 0; barIndex < series.data.length; barIndex++) {
+        final domain = domainFn(barIndex);
+        final measure = measureFn(barIndex);
+
+        domainValues.add(domain);
+
+        // Update the "all measure null" tracking for bars that have the
+        // current domain value.
+        if ((config as BarLaneRendererConfig).mergeEmptyLanes) {
+          final allNull = _allMeasuresForDomainNullMap[domain];
+          final isNull = measure == null;
+
+          _allMeasuresForDomainNullMap[domain] =
+          allNull != null ? allNull && isNull : isNull;
+        }
+      }
+
+      series.setAttr(domainValuesKey, domainValues);
+    });
   }
 
-  void _decorateVerticalBars(
-      Iterable<ImmutableBarRendererElement<D>> barElements,
-      ChartCanvas canvas,
-      GraphicsFactory graphicsFactory,
-      Rectangle drawBounds,
-      bool rtl) {
-    // Create [TextStyle] from [TextStyleSpec] to be used by all the elements.
-    // The [GraphicsFactory] is needed so it can't be created earlier.
-    final insideLabelStyle =
-    _getTextStyle(graphicsFactory, insideLabelStyleSpec);
-    final outsideLabelStyle =
-    _getTextStyle(graphicsFactory, outsideLabelStyleSpec);
+  @override
+  void update(List<ImmutableSeries<D>> seriesList, bool isAnimatingThisDraw) {
+    super.update(seriesList, isAnimatingThisDraw);
 
-    for (var element in barElements) {
-      final labelFn = element.series.labelAccessorFn;
-      final measureFn = element.series.measureFn;
-      final datumIndex = element.index;
-      final label = (labelFn != null) ? labelFn(datumIndex) : null;
-      final measure = measureFn(datumIndex) ?? 0.0;
+    // Add gray bars to render under every bar stack.
+    seriesList.forEach((ImmutableSeries<D> series) {
+      Set<D> domainValues = series.getAttr(domainValuesKey) as Set<D>;
 
-      // If there are custom styles, use that instead of the default or the
-      // style defined for the entire decorator.
-      final datumInsideLabelStyle = _getDatumStyle(
-          element.series.insideLabelStyleAccessorFn,
-          datumIndex,
-          graphicsFactory,
-          defaultStyle: insideLabelStyle);
-      final datumOutsideLabelStyle = _getDatumStyle(
-          element.series.outsideLabelStyleAccessorFn,
-          datumIndex,
-          graphicsFactory,
-          defaultStyle: outsideLabelStyle);
+      final domainAxis = series.getAttr(domainAxisKey) as ImmutableAxis<D>;
+      final measureAxis = series.getAttr(measureAxisKey) as ImmutableAxis<num>;
+      final seriesStackKey = series.getAttr(stackKeyKey);
+      final barGroupCount = series.getAttr(barGroupCountKey);
+      final barGroupIndex = series.getAttr(barGroupIndexKey);
+      final previousBarGroupWeight = series.getAttr(previousBarGroupWeightKey);
+      final barGroupWeight = series.getAttr(barGroupWeightKey);
+      final measureAxisPosition = measureAxis.getLocation(0.0);
+      final maxMeasureValue = _getMaxMeasureValue(measureAxis);
 
-      // Skip calculation and drawing for this element if no label.
-      if (label == null || label.isEmpty) {
-        continue;
-      }
+      // Create a fake series for [BarLabelDecorator] to use when looking up the
+      // index of each datum.
+      final laneSeries = new MutableSeries<D>.clone(seriesList[0]);
+      laneSeries.data = [];
 
-      var labelElements = label
-          .split(_labelSplitPattern)
-          .map((labelPart) => graphicsFactory.createTextElement(labelPart));
+      // Don't render any labels on the swim lanes.
+      laneSeries.labelAccessorFn = (int index) => '';
 
-      final bounds = element.bounds;
+      var laneSeriesIndex = 0;
+      domainValues.forEach((D domainValue) {
+        // Skip adding any background bars if they will be covered up by the
+        // domain-spanning null bar.
+        if (_allMeasuresForDomainNullMap[domainValue] == true) {
+          return;
+        }
 
-      // Get space available inside and outside the bar.
-      final totalPadding = labelPadding * 2;
-      final insideBarHeight = bounds.height - totalPadding;
-      final outsideBarHeight = drawBounds.height - bounds.height - totalPadding;
+        // Add a fake datum to the series for [BarLabelDecorator].
+        final datum = {'index': laneSeriesIndex};
+        laneSeries.data.add(datum);
 
-      var calculatedLabelPosition = labelPosition;
-      if (calculatedLabelPosition == BarLabelPosition.auto) {
-        // For auto, first try to fit the text inside the bar.
-        labelElements = labelElements.map(
-                (labelElement) => labelElement..textStyle = datumInsideLabelStyle);
+        // Each bar should be stored in barStackMap in a structure that mirrors
+        // the visual rendering of the bars. Thus, they should be grouped by
+        // domain value, series category (by way of the stack keys that were
+        // generated for each series in the preprocess step), and bar group
+        // index to account for all combinations of grouping and stacking.
+        final barStackMapKey = domainValue.toString() +
+            '__' +
+            seriesStackKey +
+            '__' +
+            barGroupIndex.toString();
 
-        final labelMaxWidth = labelElements
-            .map(
-                (labelElement) => labelElement.measurement.horizontalSliceWidth)
-            .fold(0, (max, current) => max > current ? max : current);
+        final barKey = barStackMapKey + '0';
 
-        // Total label height depends on the label element's text style.
-        final totalLabelHeight = _getTotalLabelHeight(labelElements);
+        final barStackList = _barLaneStackMap.putIfAbsent(
+            barStackMapKey, () => <AnimatedBar<D>>[]);
 
-        // A label fits if the length and width of the text fits.
-        calculatedLabelPosition =
-        totalLabelHeight < insideBarHeight && labelMaxWidth < bounds.width
-            ? BarLabelPosition.inside
-            : BarLabelPosition.outside;
-      }
+        // If we already have an AnimatingBar for that index, use it.
+        var animatingBar = barStackList.firstWhere(
+                (AnimatedBar bar) => bar.key == barKey,
+            orElse: () => null);
 
-      // Set the max width, text style, and text direction.
-      labelElements = labelElements.map((labelElement) => labelElement
-        ..textStyle = calculatedLabelPosition == BarLabelPosition.inside
-            ? datumInsideLabelStyle
-            : datumOutsideLabelStyle
-        ..maxWidth = bounds.width
-        ..textDirection = rtl ? TextDirection.rtl : TextDirection.ltr);
+        // If we don't have any existing bar element, create a new bar and have
+        // it animate in from the domain axis.
+        if (animatingBar == null) {
+          animatingBar = makeAnimatedBar(
+              key: barKey,
+              series: laneSeries,
+              datum: datum,
+              barGroupIndex: barGroupIndex,
+              previousBarGroupWeight: previousBarGroupWeight,
+              barGroupWeight: barGroupWeight,
+              color: (config as BarLaneRendererConfig).backgroundBarColor,
+              details: new BarRendererElement<D>(),
+              domainValue: domainValue,
+              domainAxis: domainAxis,
+              domainWidth: domainAxis.rangeBand.round(),
+              fillColor: (config as BarLaneRendererConfig).backgroundBarColor,
+              measureValue: maxMeasureValue,
+              measureOffsetValue: 0.0,
+              measureAxisPosition: measureAxisPosition,
+              measureAxis: measureAxis,
+              numBarGroups: barGroupCount,
+              strokeWidthPx: config.strokeWidthPx,
+              measureIsNull: false,
+              measureIsNegative: false);
 
-      // Total label height depends on the label element's text style.
-      final totalLabelHeight = _getTotalLabelHeight(labelElements);
-
-      var labelsDrawn = 0;
-      for (var labelElement in labelElements) {
-        // Calculate the start position of label based on [labelAnchor].
-        int labelY;
-        final labelHeight = labelElement.measurement.verticalSliceWidth.round();
-        final offsetHeight =
-            (labelHeight + _defaultMultiLineLabelPadding) * labelsDrawn;
-
-        if (calculatedLabelPosition == BarLabelPosition.inside) {
-          final anchor = _resolveLabelAnchor(
-              measure, labelAnchor ?? _defaultVerticalLabelAnchor);
-          switch (anchor) {
-            case BarLabelAnchor.end:
-              labelY = bounds.top + labelPadding + offsetHeight;
-              break;
-            case BarLabelAnchor.middle:
-              labelY = (bounds.bottom -
-                  bounds.height / 2 -
-                  totalLabelHeight / 2 +
-                  offsetHeight)
-                  .round();
-              break;
-            case BarLabelAnchor.start:
-              labelY = bounds.bottom -
-                  labelPadding -
-                  totalLabelHeight +
-                  offsetHeight;
-              break;
-          }
+          barStackList.add(animatingBar);
         } else {
-          // calculatedLabelPosition == LabelPosition.outside
-          if (measure < 0 &&
-              labelPlacement == BarLabelPlacement.opposeAxisBaseline) {
-            labelY = bounds.bottom + labelPadding + offsetHeight;
+          animatingBar
+            ..datum = datum
+            ..series = laneSeries
+            ..domainValue = domainValue;
+        }
+
+        // Get the barElement we are going to setup.
+        // Optimization to prevent allocation in non-animating case.
+        BaseBarRendererElement barElement = makeBarRendererElement(
+            barGroupIndex: barGroupIndex,
+            previousBarGroupWeight: previousBarGroupWeight,
+            barGroupWeight: barGroupWeight,
+            color: (config as BarLaneRendererConfig).backgroundBarColor,
+            details: new BarRendererElement<D>(),
+            domainValue: domainValue,
+            domainAxis: domainAxis,
+            domainWidth: domainAxis.rangeBand.round(),
+            fillColor: (config as BarLaneRendererConfig).backgroundBarColor,
+            measureValue: maxMeasureValue,
+            measureOffsetValue: 0.0,
+            measureAxisPosition: measureAxisPosition,
+            measureAxis: measureAxis,
+            numBarGroups: barGroupCount,
+            strokeWidthPx: config.strokeWidthPx,
+            measureIsNull: false,
+            measureIsNegative: false);
+
+        animatingBar.setNewTarget(barElement);
+
+        laneSeriesIndex++;
+      });
+    });
+
+    // Add domain-spanning bars to render when every measure value for every
+    // datum of a given domain is null.
+    if ((config as BarLaneRendererConfig).mergeEmptyLanes) {
+      // Use the axes from the first series.
+      final domainAxis =
+      seriesList[0].getAttr(domainAxisKey) as ImmutableAxis<D>;
+      final measureAxis =
+      seriesList[0].getAttr(measureAxisKey) as ImmutableAxis<num>;
+
+      final measureAxisPosition = measureAxis.getLocation(0.0);
+      final maxMeasureValue = _getMaxMeasureValue(measureAxis);
+
+      final barGroupIndex = 0;
+      final previousBarGroupWeight = 0.0;
+      final barGroupWeight = 1.0;
+      final barGroupCount = 1;
+
+      // Create a fake series for [BarLabelDecorator] to use when looking up the
+      // index of each datum. We don't care about any other series values for
+      // the merged lanes, so just clone the first series.
+      final mergedSeries = new MutableSeries<D>.clone(seriesList[0]);
+      mergedSeries.data = [];
+
+      // Add a label accessor that returns the empty lane label.
+      mergedSeries.labelAccessorFn =
+          (int index) => (config as BarLaneRendererConfig).emptyLaneLabel;
+
+      var mergedSeriesIndex = 0;
+      _allMeasuresForDomainNullMap.forEach((D domainValue, bool allNull) {
+        if (allNull) {
+          // Add a fake datum to the series for [BarLabelDecorator].
+          final datum = {'index': mergedSeriesIndex};
+          mergedSeries.data.add(datum);
+
+          final barStackMapKey = domainValue.toString() + '__allNull__';
+
+          final barKey = barStackMapKey + '0';
+
+          final barStackList = _barLaneStackMap.putIfAbsent(
+              barStackMapKey, () => <AnimatedBar<D>>[]);
+
+          // If we already have an AnimatingBar for that index, use it.
+          var animatingBar = barStackList.firstWhere(
+                  (AnimatedBar bar) => bar.key == barKey,
+              orElse: () => null);
+
+          // If we don't have any existing bar element, create a new bar and have
+          // it animate in from the domain axis.
+          if (animatingBar == null) {
+            animatingBar = makeAnimatedBar(
+                key: barKey,
+                series: mergedSeries,
+                datum: datum,
+                barGroupIndex: barGroupIndex,
+                previousBarGroupWeight: previousBarGroupWeight,
+                barGroupWeight: barGroupWeight,
+                color: (config as BarLaneRendererConfig).backgroundBarColor,
+                details: new BarRendererElement<D>(),
+                domainValue: domainValue,
+                domainAxis: domainAxis,
+                domainWidth: domainAxis.rangeBand.round(),
+                fillColor: (config as BarLaneRendererConfig).backgroundBarColor,
+                measureValue: maxMeasureValue,
+                measureOffsetValue: 0.0,
+                measureAxisPosition: measureAxisPosition,
+                measureAxis: measureAxis,
+                numBarGroups: barGroupCount,
+                strokeWidthPx: config.strokeWidthPx,
+                measureIsNull: false,
+                measureIsNegative: false);
+
+            barStackList.add(animatingBar);
           } else {
-            labelY =
-                bounds.top - labelPadding - totalLabelHeight + offsetHeight;
+            animatingBar
+              ..datum = datum
+              ..series = mergedSeries
+              ..domainValue = domainValue;
           }
+
+          // Get the barElement we are going to setup.
+          // Optimization to prevent allocation in non-animating case.
+          BaseBarRendererElement barElement = makeBarRendererElement(
+              barGroupIndex: barGroupIndex,
+              previousBarGroupWeight: previousBarGroupWeight,
+              barGroupWeight: barGroupWeight,
+              color: (config as BarLaneRendererConfig).backgroundBarColor,
+              details: new BarRendererElement<D>(),
+              domainValue: domainValue,
+              domainAxis: domainAxis,
+              domainWidth: domainAxis.rangeBand.round(),
+              fillColor: (config as BarLaneRendererConfig).backgroundBarColor,
+              measureValue: maxMeasureValue,
+              measureOffsetValue: 0.0,
+              measureAxisPosition: measureAxisPosition,
+              measureAxis: measureAxis,
+              numBarGroups: barGroupCount,
+              strokeWidthPx: config.strokeWidthPx,
+              measureIsNull: false,
+              measureIsNegative: false);
+
+          animatingBar.setNewTarget(barElement);
+
+          mergedSeriesIndex++;
         }
-
-        // Center the label inside the bar.
-        final labelX = (bounds.left +
-            bounds.width / 2 -
-            labelElement.measurement.horizontalSliceWidth / 2)
-            .round();
-
-        canvas.drawText(labelElement, labelX, labelY);
-        labelsDrawn += 1;
-      }
+      });
     }
   }
 
-  void _decorateHorizontalBars(
-      Iterable<ImmutableBarRendererElement<D>> barElements,
-      ChartCanvas canvas,
-      GraphicsFactory graphicsFactory,
-      Rectangle drawBounds,
-      bool rtl) {
-    // Create [TextStyle] from [TextStyleSpec] to be used by all the elements.
-    // The [GraphicsFactory] is needed so it can't be created earlier.
-    final insideLabelStyle =
-    _getTextStyle(graphicsFactory, insideLabelStyleSpec);
-    final outsideLabelStyle =
-    _getTextStyle(graphicsFactory, outsideLabelStyleSpec);
+  /// Gets the maximum measure value that will fit in the draw area.
+  num _getMaxMeasureValue(ImmutableAxis<num> measureAxis) {
+    final pos = (chart as CartesianChart).vertical
+        ? chart.drawAreaBounds.top
+        : isRtl ? chart.drawAreaBounds.left : chart.drawAreaBounds.right;
 
-    for (var element in barElements) {
-      final labelFn = element.series.labelAccessorFn;
-      final measureFn = element.series.measureFn;
-      final datumIndex = element.index;
-      final label = (labelFn != null) ? labelFn(datumIndex) : null;
-      final measure = measureFn(datumIndex) ?? 0.0;
-
-      // If there are custom styles, use that instead of the default or the
-      // style defined for the entire decorator.
-      final datumInsideLabelStyle = _getDatumStyle(
-          element.series.insideLabelStyleAccessorFn,
-          datumIndex,
-          graphicsFactory,
-          defaultStyle: insideLabelStyle);
-      final datumOutsideLabelStyle = _getDatumStyle(
-          element.series.outsideLabelStyleAccessorFn,
-          datumIndex,
-          graphicsFactory,
-          defaultStyle: outsideLabelStyle);
-
-      // Skip calculation and drawing for this element if no label.
-      if (label == null || label.isEmpty) {
-        continue;
-      }
-
-      final bounds = element.bounds;
-
-      // Get space available inside and outside the bar.
-      final totalPadding = labelPadding * 2;
-      final insideBarWidth = bounds.width - totalPadding;
-      final outsideBarWidth = drawBounds.width - bounds.width - totalPadding;
-
-      final labelElement = graphicsFactory.createTextElement(label);
-      var calculatedLabelPosition = labelPosition;
-      if (calculatedLabelPosition == BarLabelPosition.auto) {
-        // For auto, first try to fit the text inside the bar.
-        labelElement.textStyle = datumInsideLabelStyle;
-
-        // A label fits if the space inside the bar is >= outside bar or if the
-        // length of the text fits and the space. This is because if the bar has
-        // more space than the outside, it makes more sense to place the label
-        // inside the bar, even if the entire label does not fit.
-        calculatedLabelPosition = (insideBarWidth >= outsideBarWidth ||
-            labelElement.measurement.horizontalSliceWidth < insideBarWidth)
-            ? BarLabelPosition.inside
-            : BarLabelPosition.outside;
-      }
-
-      // Set the max width and text style.
-      if (calculatedLabelPosition == BarLabelPosition.inside) {
-        labelElement.textStyle = datumInsideLabelStyle;
-        labelElement.maxWidth = insideBarWidth;
-      } else {
-        // calculatedLabelPosition == LabelPosition.outside
-        labelElement.textStyle = datumOutsideLabelStyle;
-        labelElement.maxWidth = outsideBarWidth;
-      }
-
-      // Only calculate and draw label if there's actually space for the label.
-      if (labelElement.maxWidth < 0 ||
-          (labelElement.maxWidthStrategy == null &&
-              labelElement.measurement.horizontalSliceWidth >
-                  labelElement.maxWidth)) {
-        return;
-      }
-
-      // Calculate the start position of label based on [labelAnchor].
-      int labelX;
-      if (calculatedLabelPosition == BarLabelPosition.inside) {
-        final anchor = _resolveLabelAnchor(
-            measure, labelAnchor ?? _defaultHorizontalLabelAnchor);
-
-        switch (anchor) {
-          case BarLabelAnchor.middle:
-            labelX = (bounds.left +
-                bounds.width / 2 -
-                labelElement.measurement.horizontalSliceWidth / 2)
-                .round();
-            labelElement.textDirection =
-            rtl ? TextDirection.rtl : TextDirection.ltr;
-            break;
-
-          case BarLabelAnchor.end:
-          case BarLabelAnchor.start:
-            final alignLeft = rtl
-                ? (anchor == BarLabelAnchor.end)
-                : (anchor == BarLabelAnchor.start);
-
-            if (alignLeft) {
-              labelX = bounds.left + labelPadding;
-              labelElement.textDirection = TextDirection.ltr;
-            } else {
-              labelX = bounds.right - labelPadding;
-              labelElement.textDirection = TextDirection.rtl;
-            }
-            break;
-        }
-      } else {
-        // calculatedLabelPosition == LabelPosition.outside
-        if (measure < 0 &&
-            labelPlacement == BarLabelPlacement.opposeAxisBaseline) {
-          labelX = bounds.left - labelPadding;
-          labelElement.textDirection = TextDirection.rtl;
-        } else {
-          labelX = bounds.right + labelPadding;
-          labelElement.textDirection = TextDirection.ltr;
-        }
-      }
-
-      // Center the label inside the bar.
-      final labelY = (bounds.top +
-          (bounds.bottom - bounds.top) / 2 -
-          labelElement.measurement.verticalSliceWidth / 2)
-          .round();
-
-      canvas.drawText(labelElement, labelX, labelY);
-    }
+    return measureAxis.getDomain(pos.toDouble());
   }
 
-  /// Helper function to get the total height for a group of labels.
-  /// This includes the padding in between the labels.
-  int _getTotalLabelHeight(Iterable<TextElement> labelElements) =>
-      (labelElements.first.measurement.verticalSliceWidth *
-          labelElements.length)
-          .round() +
-          _defaultMultiLineLabelPadding * (labelElements.length - 1);
+  /// Paints the current bar data on the canvas.
+  @override
+  void paint(ChartCanvas canvas, double animationPercent) {
+    _barLaneStackMap.forEach((String stackKey, List<AnimatedBar<D>> barStack) {
+      // Turn this into a list so that the getCurrentBar isn't called more than
+      // once for each animationPercent if the barElements are iterated more
+      // than once.
+      List<BarRendererElement<D>> barElements = barStack
+          .map((AnimatedBar<D> animatingBar) =>
+          animatingBar.getCurrentBar(animationPercent))
+          .toList();
 
-  // Helper function that converts [TextStyleSpec] to [TextStyle].
-  TextStyle _getTextStyle(
-      GraphicsFactory graphicsFactory, TextStyleSpec labelSpec) {
-    return graphicsFactory.createTextPaint()
-      ..color = labelSpec?.color ?? Color.black
-      ..fontFamily = labelSpec?.fontFamily
-      ..fontSize = labelSpec?.fontSize ?? 12
-      ..lineHeight = labelSpec?.lineHeight;
+      paintBar(canvas, animationPercent, barElements);
+    });
+
+    super.paint(canvas, animationPercent);
   }
-
-  /// Helper function to get datum specific style
-  TextStyle _getDatumStyle(AccessorFn<TextStyleSpec> labelFn, int datumIndex,
-      GraphicsFactory graphicsFactory,
-      {TextStyle defaultStyle}) {
-    final styleSpec = (labelFn != null) ? labelFn(datumIndex) : null;
-    return (styleSpec != null)
-        ? _getTextStyle(graphicsFactory, styleSpec)
-        : defaultStyle;
-  }
-
-  /// Helper function to get the bar label anchor when [BarLabelPostion] is
-  /// inside.
-  BarLabelAnchor _resolveLabelAnchor(num measure, BarLabelAnchor anchor) {
-    if (labelPlacement == BarLabelPlacement.opposeAxisBaseline) {
-      if (measure >= 0) return anchor;
-      if (anchor == BarLabelAnchor.start) return BarLabelAnchor.end;
-      if (anchor == BarLabelAnchor.end) return BarLabelAnchor.start;
-      return anchor;
-    }
-    return anchor;
-  }
-}
-
-/// Configures where to place the label relative to the bars.
-enum BarLabelPosition {
-  /// Automatically try to place the label inside the bar first and place it on
-  /// the outside of the space available outside the bar is greater than space
-  /// available inside the bar.
-  auto,
-
-  /// Always place label on the outside.
-  outside,
-
-  /// Always place label on the inside.
-  inside,
-}
-
-/// Configures where to place the label relative to the axis.
-enum BarLabelPlacement {
-  /// Places the label with respect to the increase in measure axis units. The
-  /// bar end is the most positive position along the axis.
-  ///
-  /// This is the default placement.
-  followMeasureAxis,
-
-  /// Places the label with respect to the zero baseline. The bar end is the
-  /// absolute value aways from the zero baseline.
-  opposeAxisBaseline,
-}
-
-/// Configures where to anchor the label for labels drawn inside the bars.
-enum BarLabelAnchor {
-  /// Anchor to the measure start.
-  start,
-
-  /// Anchor to the middle of the measure range.
-  middle,
-
-  /// Anchor to the measure end.
-  end,
 }

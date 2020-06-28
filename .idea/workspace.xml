@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="d">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +65,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593316668254</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="d">
+      <created>1593317200036</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1593317200036</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -94,18 +98,18 @@
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
     <state x="809" y="329" key="#com.intellij.ide.util.TreeFileChooserDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1591158644571" />
-    <state x="665" y="134" key="CommitChangelistDialog2" timestamp="1593317192359">
+    <state x="665" y="134" key="CommitChangelistDialog2" timestamp="1593318774904">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
-    <state x="665" y="134" key="CommitChangelistDialog2/0.23.1920.1018@0.23.1920.1018" timestamp="1593317192359" />
-    <state x="278" y="114" width="1536" height="814" key="DiffContextDialog" timestamp="1593316811012">
+    <state x="665" y="134" key="CommitChangelistDialog2/0.23.1920.1018@0.23.1920.1018" timestamp="1593318774904" />
+    <state x="278" y="114" width="1536" height="814" key="DiffContextDialog" timestamp="1593318306485">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
-    <state x="278" y="114" width="1536" height="814" key="DiffContextDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1593316811012" />
-    <state x="672" y="260" key="Vcs.Push.Dialog.v2" timestamp="1593315604203">
+    <state x="278" y="114" width="1536" height="814" key="DiffContextDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1593318306485" />
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2" timestamp="1593317201319">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
-    <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1593315604203" />
+    <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1593317201319" />
     <state x="100" y="123" width="1720" height="818" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1593315573857">
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
