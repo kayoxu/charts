@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e8333b65-f71e-40a2-8325-adef8cb306ff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/src/chart/bar/bar_label_decorator.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="dart.analysis.tool.window.force.activate" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
@@ -53,6 +55,16 @@
     <option name="localTasksCounter" value="3" />
     <servers />
   </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="d" />
     <option name="LAST_COMMIT_MESSAGE" value="d" />
@@ -74,5 +86,9 @@
       <screen x="0" y="23" width="1920" height="1018" />
     </state>
     <state x="672" y="260" key="Vcs.Push.Dialog.v2/0.23.1920.1018@0.23.1920.1018" timestamp="1591170227446" />
+    <state x="100" y="123" width="1720" height="818" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1593315573857">
+      <screen x="0" y="23" width="1920" height="1018" />
+    </state>
+    <state x="100" y="123" width="1720" height="818" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1920.1018@0.23.1920.1018" timestamp="1593315573857" />
   </component>
 </project>
