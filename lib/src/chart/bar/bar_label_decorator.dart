@@ -33,9 +33,9 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
   static const _defaultLabelPadding = 5;
   static const _defaultLabelAnchor = BarLabelAnchor.start;
   static final _defaultInsideLabelStyle =
-  new TextStyleSpec(fontSize: 12, color: Color.white);
+      new TextStyleSpec(fontSize: 12, color: Color.white);
   static final _defaultOutsideLabelStyle =
-  new TextStyleSpec(fontSize: 12, color: Color.black);
+      new TextStyleSpec(fontSize: 12, color: Color.black);
 
   /// Configures [TextStyleSpec] for labels placed inside the bars.
   final TextStyleSpec insideLabelStyleSpec;
@@ -54,10 +54,10 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
 
   BarLabelDecorator(
       {TextStyleSpec insideLabelStyleSpec,
-        TextStyleSpec outsideLabelStyleSpec,
-        this.labelPosition = _defaultLabelPosition,
-        this.labelPadding = _defaultLabelPadding,
-        this.labelAnchor = _defaultLabelAnchor})
+      TextStyleSpec outsideLabelStyleSpec,
+      this.labelPosition = _defaultLabelPosition,
+      this.labelPadding = _defaultLabelPadding,
+      this.labelAnchor = _defaultLabelAnchor})
       : insideLabelStyleSpec = insideLabelStyleSpec ?? _defaultInsideLabelStyle,
         outsideLabelStyleSpec =
             outsideLabelStyleSpec ?? _defaultOutsideLabelStyle;
@@ -66,9 +66,9 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
   void decorate(Iterable<ImmutableBarRendererElement<D>> barElements,
       ChartCanvas canvas, GraphicsFactory graphicsFactory,
       {@required Rectangle drawBounds,
-        @required double animationPercent,
-        @required bool renderingVertically,
-        bool rtl = false}) {
+      @required double animationPercent,
+      @required bool renderingVertically,
+      bool rtl = false}) {
     // TODO: Decorator not yet available for vertical charts.
     assert(renderingVertically == false);
 
@@ -80,9 +80,9 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
     // Create [TextStyle] from [TextStyleSpec] to be used by all the elements.
     // The [GraphicsFactory] is needed so it can't be created earlier.
     final insideLabelStyle =
-    _getTextStyle(graphicsFactory, insideLabelStyleSpec);
+        _getTextStyle(graphicsFactory, insideLabelStyleSpec);
     final outsideLabelStyle =
-    _getTextStyle(graphicsFactory, outsideLabelStyleSpec);
+        _getTextStyle(graphicsFactory, outsideLabelStyleSpec);
 
     for (var element in barElements) {
       final labelFn = element.series.labelAccessorFn;
@@ -125,7 +125,7 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
         // more space than the outside, it makes more sense to place the label
         // inside the bar, even if the entire label does not fit.
         calculatedLabelPosition = (insideBarWidth >= outsideBarWidth ||
-            labelElement.measurement.horizontalSliceWidth < insideBarWidth)
+                labelElement.measurement.horizontalSliceWidth < insideBarWidth)
             ? BarLabelPosition.inside
             : BarLabelPosition.outside;
       }
@@ -148,11 +148,11 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
           switch (labelAnchor) {
             case BarLabelAnchor.middle:
               labelX = (bounds.left +
-                  bounds.width / 2 -
-                  labelElement.measurement.horizontalSliceWidth / 2)
+                      bounds.width / 2 -
+                      labelElement.measurement.horizontalSliceWidth / 2)
                   .round();
               labelElement.textDirection =
-              rtl ? TextDirection.rtl : TextDirection.ltr;
+                  rtl ? TextDirection.rtl : TextDirection.ltr;
               break;
 
             case BarLabelAnchor.end:
@@ -178,8 +178,8 @@ class BarLabelDecorator<D> extends BarRendererDecorator<D> {
 
         // Center the label inside the bar.
         final labelY = (bounds.top +
-            (bounds.bottom - bounds.top) / 2 -
-            labelElement.measurement.verticalSliceWidth / 2)
+                (bounds.bottom - bounds.top) / 2 -
+                labelElement.measurement.verticalSliceWidth / 2)
             .round();
 
         canvas.drawText(labelElement, labelX, labelY);
